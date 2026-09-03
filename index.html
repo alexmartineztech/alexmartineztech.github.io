@@ -1,68 +1,388 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alex Martinez</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0d1117;
-      color: #e6edf3;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .container {
-      text-align: center;
-      padding: 2rem;
-      max-width: 600px;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(90deg, #58a6ff, #79c0ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    p.tagline {
-      font-size: 1.1rem;
-      color: #8b949e;
-      margin-bottom: 2rem;
-    }
-    .links {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .links a {
-      color: #e6edf3;
-      background: #21262d;
-      border: 1px solid #30363d;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: border-color 0.2s;
-    }
-    .links a:hover {
-      border-color: #58a6ff;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexander Pineda Martinez — Backend Developer en formación</title>
+<meta name="description" content="Technical Support Engineer en transición hacia Backend Development. Cloud, automatización y sistemas escalables.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1117;
+    --surface:#12181f;
+    --surface-alt:#161c25;
+    --border:#242c38;
+    --text:#e6edf3;
+    --text-dim:#8b949e;
+    --accent:#58a6ff;
+    --accent-soft:#79c0ff;
+    --accent-green:#7ee787;
+    --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+  }
+  .page{max-width:760px;margin:0 auto;padding:5rem 1.5rem 4rem;}
+  a{color:var(--accent-soft);}
+  a:hover{color:var(--accent);}
+
+  /* ---------- Hero / terminal ---------- */
+  .hero{margin-bottom:5rem;}
+  .terminal{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 20px 50px -25px rgba(0,0,0,0.6);
+    margin-bottom:2.25rem;
+  }
+  .terminal-bar{
+    display:flex;align-items:center;gap:.4rem;
+    padding:.65rem .9rem;
+    background:var(--surface-alt);
+    border-bottom:1px solid var(--border);
+  }
+  .dot{width:.6rem;height:.6rem;border-radius:50%;display:inline-block;}
+  .dot.red{background:#f85149;}
+  .dot.yellow{background:#d29922;}
+  .dot.green{background:#3fb950;}
+  .terminal-title{
+    font-family:var(--mono);
+    font-size:.75rem;
+    color:var(--text-dim);
+    margin-left:.5rem;
+  }
+  .terminal-body{
+    padding:1.1rem 1.2rem 1.3rem;
+    font-family:var(--mono);
+    font-size:.85rem;
+  }
+  .terminal-body p{margin:.15rem 0;white-space:pre-wrap;}
+  .prompt{color:var(--accent-green);}
+  .output{color:var(--accent-soft);min-height:1.2em;}
+  .cursor{
+    display:inline-block;
+    animation:blink 1s step-start infinite;
+    color:var(--text-dim);
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero h1{
+    font-size:2.1rem;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin-bottom:.6rem;
+  }
+  .hero .tagline{
+    color:var(--text-dim);
+    font-size:1.05rem;
+    max-width:34rem;
+    margin-bottom:1.75rem;
+  }
+  nav.links{display:flex;flex-wrap:wrap;gap:.6rem;}
+  nav.links a{
+    font-family:var(--mono);
+    font-size:.82rem;
+    color:var(--text);
+    background:var(--surface);
+    border:1px solid var(--border);
+    padding:.5rem 1rem;
+    border-radius:6px;
+    text-decoration:none;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  nav.links a:hover{border-color:var(--accent);color:var(--accent-soft);}
+
+  /* In-page anchor nav */
+  nav.sections{
+    display:flex;flex-wrap:wrap;gap:1.4rem;
+    margin-top:2rem;
+    padding-top:1.2rem;
+    border-top:1px solid var(--border);
+  }
+  nav.sections a{
+    font-size:.85rem;
+    color:var(--text-dim);
+    text-decoration:none;
+  }
+  nav.sections a:hover{color:var(--accent-soft);}
+
+  /* ---------- Sections ---------- */
+  section{margin-bottom:4rem;}
+  section h2{
+    font-size:1.3rem;
+    font-weight:600;
+    margin-bottom:1.25rem;
+  }
+  section > p{color:var(--text-dim);max-width:38rem;}
+
+  .about p + p{margin-top:.9rem;}
+
+  /* Stack */
+  .stack-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.5rem;
+    border-top:1px solid var(--border);
+    padding-top:1.5rem;
+  }
+  .stack-col h3{
+    font-family:var(--mono);
+    font-size:.85rem;
+    font-weight:500;
+    color:var(--accent-green);
+    margin-bottom:.75rem;
+  }
+  .stack-col ul{list-style:none;}
+  .stack-col li{
+    font-size:.92rem;
+    color:var(--text-dim);
+    padding:.35rem 0;
+    border-bottom:1px dashed var(--border);
+  }
+  .stack-col li:last-child{border-bottom:none;}
+
+  /* Focus / topics */
+  .focus-list{list-style:none;border-top:1px solid var(--border);}
+  .focus-list li{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:1rem;
+    padding:1rem 0;
+    border-bottom:1px solid var(--border);
+  }
+  .focus-list a{
+    text-decoration:none;
+    font-weight:500;
+    color:var(--text);
+    white-space:nowrap;
+  }
+  .focus-list a:hover{color:var(--accent-soft);}
+  .focus-list span{
+    color:var(--text-dim);
+    font-size:.88rem;
+    text-align:right;
+  }
+
+  /* Roadmap timeline */
+  .timeline{list-style:none;position:relative;padding-left:2.4rem;}
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:.85rem;top:.4rem;bottom:.4rem;
+    width:1px;
+    background:var(--border);
+  }
+  .timeline li{position:relative;padding-bottom:1.8rem;}
+  .timeline li:last-child{padding-bottom:0;}
+  .timeline .step{
+    position:absolute;
+    left:-2.4rem;
+    top:0;
+    width:1.7rem;height:1.7rem;
+    border-radius:50%;
+    background:var(--surface);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);
+    font-size:.7rem;
+    color:var(--accent-soft);
+  }
+  .timeline h3{font-size:1rem;font-weight:600;margin-bottom:.25rem;}
+  .timeline p{color:var(--text-dim);font-size:.92rem;max-width:34rem;}
+
+  /* Footer */
+  footer{
+    border-top:1px solid var(--border);
+    padding-top:2.25rem;
+  }
+  footer .cta{font-size:1.05rem;margin-bottom:1.25rem;}
+  footer .fine{color:var(--text-dim);font-size:.8rem;margin-top:2rem;}
+
+  @media (max-width:600px){
+    .page{padding:3rem 1.25rem 3rem;}
+    .stack-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:1.7rem;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .cursor{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Alex Martinez</h1>
-    <p class="tagline">Bienvenido a mi espacio en la web.</p>
-    <div class="links">
-      <a href="mailto:tu@email.com">Contacto</a>
-      <a href="https://github.com/alexmartineztech">GitHub</a>
-      <a href="https://www.linkedin.com/in/tu-perfil">LinkedIn</a>
-    </div>
+  <div class="page">
+
+    <header class="hero">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">alex@martinez:~</span>
+        </div>
+        <div class="terminal-body">
+          <p><span class="prompt">$</span> whoami</p>
+          <p class="output" id="line-name"></p>
+          <p><span class="prompt">$</span> cat status.txt</p>
+          <p class="output" id="line-status"></p>
+          <p><span class="prompt">$</span> <span class="cursor">▌</span></p>
+        </div>
+      </div>
+
+      <h1>Alexander Pineda Martinez</h1>
+      <p class="tagline">Technical Support Engineer en transición hacia Backend Development — enfocado en sistemas cloud, automatización y soluciones escalables.</p>
+
+      <nav class="links">
+        <a href="https://alexmartineztech.wordpress.com/" target="_blank" rel="noopener">Blog</a>
+        <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/alexmartineztech" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/alexmartinez.tech" target="_blank" rel="noopener">Instagram</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="about">
+        <h2>Sobre mí</h2>
+        <p>Llevo varios años trabajando en soporte técnico e infraestructura para entornos enterprise: gestión de identidades, dispositivos corporativos y plataformas cloud del día a día. Ese camino me llevó a una pregunta que ahora guía mi crecimiento profesional: ¿cómo funcionan las aplicaciones por dentro?</p>
+        <p>Estoy construyendo esa respuesta con Python, APIs y bases de datos, sin dejar atrás lo que ya sé de Linux, redes y sistemas empresariales. Documento el proceso en mi blog, entre resolución de problemas reales y proyectos propios en GitHub.</p>
+      </section>
+
+      <section class="stack">
+        <h2>Stack</h2>
+        <div class="stack-grid">
+          <div class="stack-col">
+            <h3># infraestructura-y-cloud</h3>
+            <ul>
+              <li>Microsoft Intune</li>
+              <li>Active Directory / Azure AD</li>
+              <li>Microsoft 365 · Google Workspace</li>
+              <li>Azure</li>
+              <li>VPN & Remote Support</li>
+              <li>Linux</li>
+              <li>ServiceNow · Zendesk</li>
+            </ul>
+          </div>
+          <div class="stack-col">
+            <h3># backend-en-construccion</h3>
+            <ul>
+              <li>Python</li>
+              <li>APIs REST (Flask, FastAPI)</li>
+              <li>SQL & bases de datos</li>
+              <li>Git & GitHub</li>
+              <li>Arquitectura básica de software</li>
+              <li>Clean Code & principios SOLID</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="focus">
+        <h2>Temas que exploro en el blog</h2>
+        <ul class="focus-list">
+          <li>
+            <a href="https://alexmartineztech.wordpress.com/cloud-infraestructura/" target="_blank" rel="noopener">Cloud & Infraestructura</a>
+            <span>Intune, Active Directory, entornos híbridos</span>
+          </li>
+          <li>
+            <a href="https://alexmartineztech.wordpress.com/desarrollo-backend/" target="_blank" rel="noopener">Desarrollo Backend</a>
+            <span>APIs, bases de datos, arquitectura</span>
+          </li>
+          <li>
+            <a href="https://alexmartineztech.wordpress.com/proyectos-con-python/" target="_blank" rel="noopener">Proyectos con Python</a>
+            <span>Scripts, automatización, ejemplos</span>
+          </li>
+          <li>
+            <a href="https://alexmartineztech.wordpress.com/roadmaps-de-aprendizaje/" target="_blank" rel="noopener">Roadmaps de Aprendizaje</a>
+            <span>Rutas de estudio y recursos</span>
+          </li>
+          <li>
+            <a href="https://alexmartineztech.wordpress.com/automatizacion-y-productividad/" target="_blank" rel="noopener">Automatización y productividad</a>
+            <span>Flujos de trabajo más eficientes</span>
+          </li>
+          <li>
+            <a href="https://alexmartineztech.wordpress.com/transicion-profesional-hacia-software-engineering/" target="_blank" rel="noopener">Transición hacia Software Engineering</a>
+            <span>El camino, sin filtro</span>
+          </li>
+          <li>
+            <a href="https://alexmartineztech.wordpress.com/experimentos-tecnologicos-y-proyectos-en-github/" target="_blank" rel="noopener">Experimentos y proyectos en GitHub</a>
+            <span>Lo que voy publicando</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="roadmap">
+        <h2>Camino de transición</h2>
+        <ol class="timeline">
+          <li>
+            <span class="step">01</span>
+            <h3>Soporte técnico enterprise</h3>
+            <p>Troubleshooting, gestión de dispositivos y autenticación de usuarios en entornos corporativos reales.</p>
+          </li>
+          <li>
+            <span class="step">02</span>
+            <h3>Cloud & gestión de identidades</h3>
+            <p>Azure, Microsoft 365 e Intune: entender cómo se administran usuarios, accesos y compliance a escala.</p>
+          </li>
+          <li>
+            <span class="step">03</span>
+            <h3>Automatización con Python</h3>
+            <p>Reemplazar tareas repetitivas por scripts, y empezar a consumir y pensar en APIs.</p>
+          </li>
+          <li>
+            <span class="step">04</span>
+            <h3>Fundamentos de backend</h3>
+            <p>APIs REST, SQL, Git y las primeras nociones de arquitectura de software limpia.</p>
+          </li>
+          <li>
+            <span class="step">05</span>
+            <h3>Proyectos en público</h3>
+            <p>Publicar experimentos y avances en GitHub y en el blog, en construcción constante.</p>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <p class="cta">¿Hablamos de cloud, backend o de cómo cambiar de rumbo dentro de tech? <a href="mailto:tu@email.com">Escríbeme</a>.</p>
+      <nav class="links">
+        <a href="https://alexmartineztech.wordpress.com/" target="_blank" rel="noopener">Blog</a>
+        <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/alexmartineztech" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/alexmartinez.tech" target="_blank" rel="noopener">Instagram</a>
+      </nav>
+      <p class="fine">© 2026 Alexander Pineda Martinez</p>
+    </footer>
+
   </div>
+
+<script>
+  function typeLine(el, text, speed, done){
+    if(!el) return;
+    var i = 0;
+    (function tick(){
+      if(i <= text.length){
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(tick, speed);
+      } else if (done){ done(); }
+    })();
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var nameEl = document.getElementById('line-name');
+    var statusEl = document.getElementById('line-status');
+    typeLine(nameEl, 'Alexander Pineda Martinez', 28, function(){
+      typeLine(statusEl, 'Technical Support Engineer -> Backend Developer (en progreso)', 18);
+    });
+  });
+</script>
 </body>
 </html>
