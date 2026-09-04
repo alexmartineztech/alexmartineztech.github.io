@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Alexander Pineda Martinez — Cloud · Infrastructure · Security · IT Operations</title>
+<title>Alexander Pineda Martinez — Identity & Access Security · Cloud · IT Operations</title>
 
 <meta name="description"
-      content="Alexander Pineda Martinez — Service Assurance Engineer and IT Support Specialist focused on Cloud Infrastructure, AWS, Azure, Security, Enterprise IT, Incident Management and Automation.">
+      content="Alexander Pineda Martinez — Service Assurance Engineer building toward Identity & Access Security, with hands-on enterprise experience in Azure, Entra ID, Intune, IAM and critical incident management.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -790,6 +790,206 @@ section > p{
 
 
 /* ==========================================================
+   PROJECTS
+========================================================== */
+
+.projects-intro{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-end;
+
+  gap:1rem;
+
+  flex-wrap:wrap;
+
+  margin-bottom:1.5rem;
+}
+
+
+.projects-count{
+
+  font-family:var(--mono);
+
+  font-size:.72rem;
+
+  color:var(--text-dim);
+
+  white-space:nowrap;
+}
+
+
+.project-list{
+
+  list-style:none;
+
+  display:grid;
+
+  gap:1rem;
+}
+
+
+.project-card{
+
+  position:relative;
+
+  background:var(--surface);
+
+  border:1px solid var(--border);
+
+  border-radius:9px;
+
+  padding:1.3rem 1.4rem;
+
+  transition:
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+
+.project-card:hover{
+
+  border-color:var(--border-light);
+
+  transform:translateY(-3px);
+}
+
+
+.project-card.empty{
+
+  border-style:dashed;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:.9rem;
+}
+
+
+.project-status{
+
+  font-family:var(--mono);
+
+  font-size:.65rem;
+
+  padding:.25rem .55rem;
+
+  border-radius:4px;
+
+  white-space:nowrap;
+}
+
+
+.project-status.planned{
+  color:var(--text-dim);
+  border:1px solid var(--border-light);
+}
+
+
+.project-status.building{
+  color:var(--warning);
+  border:1px solid rgba(210,153,34,.35);
+}
+
+
+.project-status.shipped{
+  color:var(--green);
+  border:1px solid rgba(126,231,135,.35);
+}
+
+
+.project-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-start;
+
+  gap:1rem;
+
+  margin-bottom:.5rem;
+}
+
+
+.project-header h3{
+
+  font-size:1rem;
+
+  font-weight:600;
+}
+
+
+.project-card p{
+
+  color:var(--text-dim);
+
+  font-size:.87rem;
+
+  max-width:42rem;
+
+  margin-bottom:.8rem;
+}
+
+
+.project-meta{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:.5rem;
+
+  margin-bottom:.8rem;
+}
+
+
+.project-tag{
+
+  font-family:var(--mono);
+
+  font-size:.65rem;
+
+  padding:.3rem .55rem;
+
+  border:1px solid var(--border);
+
+  border-radius:4px;
+
+  color:var(--text-dim);
+}
+
+
+.project-links{
+
+  display:flex;
+
+  gap:1rem;
+
+  font-family:var(--mono);
+
+  font-size:.75rem;
+}
+
+
+.project-links a{
+
+  text-decoration:none;
+}
+
+
+.project-card.empty p{
+
+  margin-bottom:0;
+
+  font-size:.85rem;
+}
+
+
+/* ==========================================================
    CORE TECHNOLOGY STACK
 ========================================================== */
 
@@ -1209,6 +1409,14 @@ section > p{
   padding:1rem 0;
 
   border-bottom:1px solid var(--border);
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:1rem;
 }
 
 
@@ -1231,6 +1439,20 @@ section > p{
   font-size:.83rem;
 
   margin-top:.2rem;
+}
+
+
+.cert-status{
+
+  font-family:var(--mono);
+
+  font-size:.65rem;
+
+  padding:.25rem .55rem;
+
+  border-radius:4px;
+
+  white-space:nowrap;
 }
 
 
@@ -1391,7 +1613,8 @@ footer .fine{
   }
 
 
-  .experience-header{
+  .experience-header,
+  .project-header{
 
     flex-direction:column;
 
@@ -1414,6 +1637,22 @@ footer .fine{
   .article-section{
 
     padding:1.25rem;
+  }
+
+
+  .projects-intro{
+
+    align-items:flex-start;
+  }
+
+
+  .simple-list li{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:.3rem;
   }
 
 }
@@ -1498,10 +1737,11 @@ footer .fine{
 
   <p class="tagline">
 
-    Service Assurance Engineer &amp; IT Support Specialist with
-    enterprise experience across Cloud Infrastructure, Microsoft
-    environments, endpoint management, identity, security,
-    incident management and critical operations.
+    Service Assurance Engineer with hands-on enterprise experience in
+    identity and access management, building toward Identity &amp;
+    Access Security and Cloud Security — on top of three years running
+    IAM, endpoint identity and critical incident response inside
+    regulated, global environments.
 
   </p>
 
@@ -1545,6 +1785,8 @@ footer .fine{
 
     <a href="#experience">Experience</a>
 
+    <a href="#projects">Projects</a>
+
     <a href="#stack">Stack</a>
 
     <a href="#articles">Knowledge</a>
@@ -1579,41 +1821,42 @@ footer .fine{
 
   <p>
 
-    I work at the intersection of enterprise IT, cloud infrastructure,
-    service assurance and end-user computing. My experience has been
-    built inside international environments where availability,
-    security, operational discipline and incident response are not
-    theoretical concepts but everyday requirements.
+    I work at the intersection of identity, enterprise IT and service
+    assurance. My experience has been built inside international,
+    regulated environments where access control, availability and
+    incident discipline are everyday requirements, not abstractions.
 
   </p>
 
 
   <p>
 
-    My current role focuses on service assurance and critical operations,
-    including 24/7 monitoring, L1/L2 incident management, major incident
-    coordination, operational changes, preventive maintenance,
-    root cause analysis, technical documentation and continuous
-    improvement.
+    My current role focuses on service assurance and critical
+    operations: 24/7 monitoring, L1/L2 incident management, major
+    incident coordination, root cause analysis and continuous
+    improvement, under compliance frameworks including DORA, FCA
+    and PRA.
 
   </p>
 
 
   <p>
 
-    Previously, I worked in a global enterprise environment supporting
-    Microsoft technologies at Tier 2 level, with hands-on responsibility
-    for Intune, Autopilot, Entra ID, Active Directory, Microsoft 365,
-    endpoint management, IAM, ServiceNow and VIP support.
+    Previously, I spent three years at a global enterprise supporting
+    Microsoft identity and endpoint technologies at Tier 2 level, with
+    direct, hands-on responsibility for Entra ID, Intune, Autopilot,
+    Active Directory, IAM and Secure Access Workstations for 500+
+    users.
 
   </p>
 
 
   <p>
 
-    My technical interests are increasingly centered around cloud
-    infrastructure, AWS, Azure, security, automation, enterprise
-    support and reliable operations.
+    I am building on that operational foundation toward a
+    specialization in Identity &amp; Access Security and Cloud
+    Security, through structured certification (SC-900, AZ-500,
+    SC-300) and hands-on lab projects documented in the section below.
 
   </p>
 
@@ -1624,11 +1867,11 @@ footer .fine{
     <div class="profile-card">
 
       <strong>
-        CLOUD
+        IDENTITY &amp; ACCESS
       </strong>
 
       <span>
-        AWS · Azure · Cloud Operations · Hybrid Environments
+        Entra ID · IAM · Conditional Access · MFA · Zero Trust Fundamentals
       </span>
 
     </div>
@@ -1637,11 +1880,11 @@ footer .fine{
     <div class="profile-card">
 
       <strong>
-        SECURITY
+        CLOUD
       </strong>
 
       <span>
-        IAM · Endpoint Security · Identity · Compliance · Secure Access
+        Microsoft Azure · Cloud Operations · Hybrid Environments
       </span>
 
     </div>
@@ -1654,7 +1897,7 @@ footer .fine{
       </strong>
 
       <span>
-        24/7 Service Assurance · Incident Management · Monitoring · SLA
+        24/7 Service Assurance · Critical Incident Management · SLA
       </span>
 
     </div>
@@ -1667,7 +1910,7 @@ footer .fine{
       </strong>
 
       <span>
-        Microsoft 365 · Intune · Entra ID · Windows · VIP Support
+        Microsoft 365 · Intune · Autopilot · VIP Support · ServiceNow
       </span>
 
     </div>
@@ -1734,7 +1977,8 @@ footer .fine{
 
         <li>
           L1/L2 incident management with strong focus on SLA compliance,
-          escalation quality and operational continuity.
+          escalation quality and operational continuity, under
+          regulatory frameworks including FCA, PRA and DORA.
         </li>
 
         <li>
@@ -1764,12 +2008,7 @@ footer .fine{
 
         <li>
           Technical documentation aligned with ITIL and regulatory
-          requirements including FCA, PRA and DORA.
-        </li>
-
-        <li>
-          Continuous improvement of operational workflows and procedures
-          to reduce operational risk and improve efficiency.
+          requirements.
         </li>
 
       </ul>
@@ -1812,22 +2051,19 @@ footer .fine{
       <ul>
 
         <li>
-          Tier 2 enterprise IT support for more than 500 users.
+          Identity and access management on Microsoft Entra ID and
+          Active Directory: users, groups, permissions and access
+          control for 500+ users in a global enterprise environment.
         </li>
 
         <li>
-          Microsoft Intune administration including policies,
-          compliance and endpoint management.
+          Implementation of Conditional Access, MFA and compliance
+          policy via Microsoft Intune.
         </li>
 
         <li>
-          Device deployment using Microsoft Autopilot and
-          Secure Access Workstations.
-        </li>
-
-        <li>
-          Entra ID and Active Directory administration including
-          users, groups, access and identity management.
+          Secure endpoint deployment using Autopilot and Secure
+          Access Workstations, including device lifecycle management.
         </li>
 
         <li>
@@ -1837,15 +2073,11 @@ footer .fine{
 
         <li>
           ServiceNow incident and service request management
-          under strict SLA and KPI requirements.
+          against strict SLA and KPI requirements.
         </li>
 
         <li>
           VIP support and critical incident resolution.
-        </li>
-
-        <li>
-          Endpoint lifecycle and IT asset management.
         </li>
 
         <li>
@@ -2144,6 +2376,176 @@ footer .fine{
 
 
 <!-- ==========================================================
+     PROJECTS
+========================================================== -->
+
+<section
+  class="reveal"
+  id="projects">
+
+  <div class="projects-intro">
+
+    <div>
+
+      <h2>
+        Projects
+      </h2>
+
+      <p>
+        Hands-on lab work that backs up the certifications and the
+        Identity &amp; Access Security direction — documented as I
+        build it, not claimed in advance.
+      </p>
+
+    </div>
+
+    <span class="projects-count">
+      2 in progress · 1 planned
+    </span>
+
+  </div>
+
+
+  <ul class="project-list">
+
+
+    <!-- PROJECT 1 -->
+
+    <li class="project-card">
+
+      <div class="project-header">
+
+        <h3>
+          Entra ID Zero Trust Lab
+        </h3>
+
+        <span class="project-status building">
+          IN PROGRESS
+        </span>
+
+      </div>
+
+      <p>
+        Free-tier Entra ID tenant configured with Conditional Access
+        policies, MFA enforcement, Privileged Identity Management (PIM)
+        and baseline Zero Trust controls. Documenting each control,
+        the reasoning behind it, and how it maps to real enterprise
+        risk — not just a checklist of settings enabled.
+      </p>
+
+      <div class="project-meta">
+        <span class="project-tag">ENTRA ID</span>
+        <span class="project-tag">CONDITIONAL ACCESS</span>
+        <span class="project-tag">MFA</span>
+        <span class="project-tag">PIM</span>
+        <span class="project-tag">ZERO TRUST</span>
+      </div>
+
+      <div class="project-links">
+        <a href="#">Write-up (coming soon)</a>
+        <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener">GitHub</a>
+      </div>
+
+    </li>
+
+
+
+    <!-- PROJECT 2 -->
+
+    <li class="project-card">
+
+      <div class="project-header">
+
+        <h3>
+          Major Incident Playbook — Identity &amp; Access Cases
+        </h3>
+
+        <span class="project-status building">
+          IN PROGRESS
+        </span>
+
+      </div>
+
+      <p>
+        A sanitized, generalized incident response playbook built from
+        patterns seen in real major incidents involving access and
+        authentication failures — detection, escalation path, containment
+        and post-incident review structure, written so it is reusable
+        without exposing any client-confidential detail.
+      </p>
+
+      <div class="project-meta">
+        <span class="project-tag">INCIDENT RESPONSE</span>
+        <span class="project-tag">ITIL</span>
+        <span class="project-tag">ACCESS SECURITY</span>
+        <span class="project-tag">RCA</span>
+      </div>
+
+      <div class="project-links">
+        <a href="#">Write-up (coming soon)</a>
+      </div>
+
+    </li>
+
+
+
+    <!-- PROJECT 3 - PLANNED -->
+
+    <li class="project-card">
+
+      <div class="project-header">
+
+        <h3>
+          AZ-500 Capstone: Securing a Small Azure Environment
+        </h3>
+
+        <span class="project-status planned">
+          PLANNED
+        </span>
+
+      </div>
+
+      <p>
+        End-to-end build of a small Azure environment covering identity,
+        network security, Key Vault, logging and Defender, produced
+        alongside AZ-500 study as the practical counterpart to the
+        certification.
+      </p>
+
+      <div class="project-meta">
+        <span class="project-tag">AZURE</span>
+        <span class="project-tag">AZ-500</span>
+        <span class="project-tag">KEY VAULT</span>
+        <span class="project-tag">DEFENDER</span>
+      </div>
+
+    </li>
+
+
+
+    <!-- EMPTY SLOT -->
+
+    <li class="project-card empty">
+
+      <span class="project-status planned">
+        NEXT
+      </span>
+
+      <p>
+        This space is reserved for the next project — new write-ups
+        get added here as each certification and lab is completed.
+      </p>
+
+    </li>
+
+
+  </ul>
+
+</section>
+
+
+
+<!-- ==========================================================
      STACK
 ========================================================== -->
 
@@ -2162,19 +2564,19 @@ footer .fine{
     <div class="stack-col">
 
       <h3>
-        # cloud-infrastructure
+        # identity-security
       </h3>
 
       <ul>
 
-        <li>AWS</li>
-        <li>Microsoft Azure</li>
-        <li>Cloud Operations</li>
-        <li>Hybrid Environments</li>
-        <li>Infrastructure Monitoring</li>
-        <li>Microsoft Intune</li>
-        <li>Microsoft Autopilot</li>
-        <li>Windows Enterprise</li>
+        <li>Entra ID</li>
+        <li>Active Directory</li>
+        <li>IAM</li>
+        <li>Conditional Access / MFA</li>
+        <li>Zero Trust Fundamentals</li>
+        <li>Secure Access Workstations</li>
+        <li>Endpoint Security</li>
+        <li>Compliance (DORA / FCA / PRA)</li>
 
       </ul>
 
@@ -2185,19 +2587,18 @@ footer .fine{
     <div class="stack-col">
 
       <h3>
-        # identity-security
+        # cloud-and-endpoint
       </h3>
 
       <ul>
 
-        <li>Entra ID</li>
-        <li>Active Directory</li>
-        <li>IAM</li>
-        <li>Endpoint Security</li>
-        <li>Secure Access Workstations</li>
-        <li>Authentication</li>
-        <li>Access Management</li>
-        <li>Compliance</li>
+        <li>Microsoft Azure</li>
+        <li>Microsoft Intune</li>
+        <li>Microsoft Autopilot</li>
+        <li>Windows Enterprise</li>
+        <li>Cloud Operations</li>
+        <li>Hybrid Environments</li>
+        <li>Infrastructure Monitoring</li>
 
       </ul>
 
@@ -2237,9 +2638,8 @@ footer .fine{
       <ul>
 
         <li>ITIL</li>
-        <li>Incident Management</li>
-        <li>Major Incident Management</li>
-        <li>Problem Management</li>
+        <li>Critical Incident Management</li>
+        <li>Major Incident Coordination</li>
         <li>Root Cause Analysis</li>
         <li>SLA / KPI Management</li>
         <li>24/7 Operations</li>
@@ -2264,7 +2664,6 @@ footer .fine{
         <li>Connectivity Troubleshooting</li>
         <li>Network Troubleshooting</li>
         <li>Remote Support</li>
-        <li>Infrastructure Troubleshooting</li>
 
       </ul>
 
@@ -2275,19 +2674,16 @@ footer .fine{
     <div class="stack-col">
 
       <h3>
-        # automation-development
+        # learning-now
       </h3>
 
       <ul>
 
-        <li>Python</li>
-        <li>REST APIs</li>
-        <li>JSON</li>
-        <li>SQL</li>
-        <li>Git</li>
-        <li>GitHub</li>
-        <li>Workflow Automation</li>
-        <li>Technical Documentation</li>
+        <li>SC-900 (in progress)</li>
+        <li>AZ-500 (planned)</li>
+        <li>SC-300 (planned)</li>
+        <li>Python for automation</li>
+        <li>REST APIs / JSON</li>
 
       </ul>
 
@@ -2313,60 +2709,13 @@ footer .fine{
 
 
   <p>
-    Practical notes and technical articles based on enterprise IT,
-    cloud infrastructure, security, support operations and automation.
+    Practical notes based on enterprise identity, security, incident
+    operations and Microsoft cloud environments — written from
+    hands-on experience, not theory.
   </p>
 
 
   <ul class="article-list" style="margin-top:1.5rem;">
-
-
-    <li>
-
-      <a
-        class="article"
-        href="#cloud-infrastructure">
-
-        <small>
-          CLOUD / INFRASTRUCTURE
-        </small>
-
-        <strong>
-          Cloud Infrastructure
-        </strong>
-
-        <span>
-          Architecture, operations, monitoring and enterprise cloud environments.
-        </span>
-
-      </a>
-
-    </li>
-
-
-
-    <li>
-
-      <a
-        class="article"
-        href="#aws">
-
-        <small>
-          AWS
-        </small>
-
-        <strong>
-          AWS Infrastructure
-        </strong>
-
-        <span>
-          AWS fundamentals, services, architecture and operational practices.
-        </span>
-
-      </a>
-
-    </li>
-
 
 
     <li>
@@ -2380,11 +2729,11 @@ footer .fine{
         </small>
 
         <strong>
-          Security &amp; Identity
+          Identity &amp; Access Security
         </strong>
 
         <span>
-          IAM, endpoint security, identity, access and secure enterprise environments.
+          IAM, Conditional Access, Zero Trust and enterprise identity as a security boundary.
         </span>
 
       </a>
@@ -2397,18 +2746,18 @@ footer .fine{
 
       <a
         class="article"
-        href="#enterprise-support">
+        href="#cloud-infrastructure">
 
         <small>
-          IT SUPPORT
+          CLOUD
         </small>
 
         <strong>
-          Enterprise IT Support
+          Azure &amp; Cloud Operations
         </strong>
 
         <span>
-          Tier 1/Tier 2 support, troubleshooting, Microsoft 365 and endpoint management.
+          Azure fundamentals, identity services and operational practices.
         </span>
 
       </a>
@@ -2445,6 +2794,30 @@ footer .fine{
 
       <a
         class="article"
+        href="#enterprise-support">
+
+        <small>
+          IT SUPPORT
+        </small>
+
+        <strong>
+          Enterprise IT Support
+        </strong>
+
+        <span>
+          Tier 1/Tier 2 support, troubleshooting, Microsoft 365 and endpoint management.
+        </span>
+
+      </a>
+
+    </li>
+
+
+
+    <li>
+
+      <a
+        class="article"
         href="#automation">
 
         <small>
@@ -2467,88 +2840,6 @@ footer .fine{
 
 
 
-  <!-- CLOUD -->
-
-  <article
-    class="article-section"
-    id="cloud-infrastructure">
-
-    <h3>
-      Cloud Infrastructure
-    </h3>
-
-    <p>
-
-      Exploring practical cloud infrastructure concepts through the
-      perspective of enterprise operations: availability, monitoring,
-      identity, networking, access control, troubleshooting and
-      operational resilience.
-
-    </p>
-
-    <p>
-
-      The objective is not simply to deploy infrastructure, but to
-      understand how infrastructure behaves under real operational
-      conditions and how engineering decisions affect reliability,
-      security and supportability.
-
-    </p>
-
-    <div class="article-meta">
-
-      <span class="article-tag">CLOUD</span>
-      <span class="article-tag">INFRASTRUCTURE</span>
-      <span class="article-tag">MONITORING</span>
-      <span class="article-tag">OPERATIONS</span>
-
-    </div>
-
-  </article>
-
-
-
-  <!-- AWS -->
-
-  <article
-    class="article-section"
-    id="aws">
-
-    <h3>
-      AWS Infrastructure
-    </h3>
-
-    <p>
-
-      AWS is a key area of technical development, with a focus on
-      understanding core cloud services, infrastructure architecture,
-      networking, identity, security and operational management.
-
-    </p>
-
-    <p>
-
-      Topics include compute, storage, networking, IAM, monitoring,
-      logging, availability and the operational principles required
-      to support production-oriented cloud environments.
-
-    </p>
-
-    <div class="article-meta">
-
-      <span class="article-tag">AWS</span>
-      <span class="article-tag">IAM</span>
-      <span class="article-tag">EC2</span>
-      <span class="article-tag">S3</span>
-      <span class="article-tag">VPC</span>
-      <span class="article-tag">CLOUDWATCH</span>
-
-    </div>
-
-  </article>
-
-
-
   <!-- SECURITY -->
 
   <article
@@ -2556,34 +2847,65 @@ footer .fine{
     id="security">
 
     <h3>
-      Security &amp; Identity
+      Identity &amp; Access Security
     </h3>
 
     <p>
 
-      Security is approached from an operational and infrastructure
-      perspective, with particular interest in identity, authentication,
-      authorization, endpoint security, access management and
-      enterprise security controls.
+      Security is approached from an operational, identity-first
+      perspective: authentication, authorization, Conditional Access,
+      endpoint security and access management as the boundary that
+      actually gets tested during an incident.
 
     </p>
 
     <p>
 
-      Professional experience with Entra ID, Active Directory, Intune,
-      Secure Access Workstations, IAM and enterprise access management
-      provides a practical foundation for understanding how identity
-      becomes a critical security boundary.
+      Three years administering Entra ID, Active Directory, Intune and
+      Secure Access Workstations in a regulated global enterprise
+      provide the practical foundation this direction is built on.
 
     </p>
 
     <div class="article-meta">
 
-      <span class="article-tag">SECURITY</span>
       <span class="article-tag">IAM</span>
       <span class="article-tag">ENTRA ID</span>
-      <span class="article-tag">INTUNE</span>
+      <span class="article-tag">CONDITIONAL ACCESS</span>
       <span class="article-tag">ZERO TRUST</span>
+
+    </div>
+
+  </article>
+
+
+
+  <!-- CLOUD -->
+
+  <article
+    class="article-section"
+    id="cloud-infrastructure">
+
+    <h3>
+      Azure &amp; Cloud Operations
+    </h3>
+
+    <p>
+
+      Azure is the primary cloud platform in current use — through
+      Entra ID, Intune and enterprise device management. Current
+      study is extending that operational base toward AZ-500-level
+      security engineering: network security, Key Vault, logging and
+      Defender.
+
+    </p>
+
+    <div class="article-meta">
+
+      <span class="article-tag">AZURE</span>
+      <span class="article-tag">ENTRA ID</span>
+      <span class="article-tag">AZ-500</span>
+      <span class="article-tag">MONITORING</span>
 
     </div>
 
@@ -2605,14 +2927,13 @@ footer .fine{
 
       Enterprise support is more than resolving tickets. It involves
       understanding the relationship between users, endpoints,
-      identity, applications, networks, cloud services and business
-      requirements.
+      identity, applications and business requirements.
 
     </p>
 
     <p>
 
-      My experience includes Tier 1/Tier 2 support, VIP support,
+      Experience includes Tier 1/Tier 2 support, VIP support,
       Microsoft 365, endpoint deployment, Intune, Autopilot,
       Active Directory, Entra ID, ServiceNow and enterprise
       troubleshooting.
@@ -2653,7 +2974,7 @@ footer .fine{
 
     <p>
 
-      My current service assurance work includes L1/L2 incidents,
+      Current service assurance work includes L1/L2 incidents,
       major incident coordination, SLA management, monitoring,
       post-incident reporting, root cause analysis and continuous
       improvement within 24/7 environments.
@@ -2663,7 +2984,6 @@ footer .fine{
     <div class="article-meta">
 
       <span class="article-tag">ITIL</span>
-      <span class="article-tag">INCIDENTS</span>
       <span class="article-tag">MAJOR INCIDENTS</span>
       <span class="article-tag">RCA</span>
       <span class="article-tag">SLA</span>
@@ -2694,9 +3014,9 @@ footer .fine{
 
     <p>
 
-      Current areas of interest include Python scripting, API
-      interaction, JSON processing, workflow automation and
-      operational tooling.
+      Current areas of study include Python scripting, API
+      interaction, JSON processing and operational tooling for
+      identity and access administration.
 
     </p>
 
@@ -2705,7 +3025,6 @@ footer .fine{
       <span class="article-tag">PYTHON</span>
       <span class="article-tag">REST APIs</span>
       <span class="article-tag">AUTOMATION</span>
-      <span class="article-tag">WORKFLOWS</span>
 
     </div>
 
@@ -2880,13 +3199,106 @@ footer .fine{
 
     <li>
 
-      <strong>
-        Universidad Isabel I
-      </strong>
+      <div>
 
-      <span>
-        Master's Degree Programs — Full Stack Development /
-        Computer Programming
+        <strong>
+          Universidad Isabel I
+        </strong>
+
+        <span>
+          Master's Degree Programs — Full Stack Development /
+          Computer Programming
+        </span>
+
+      </div>
+
+    </li>
+
+
+    <li>
+
+      <div>
+
+        <strong>
+          IPI-Fernando Aguado y Rico
+        </strong>
+
+        <span>
+          Computer Science
+        </span>
+
+      </div>
+
+    </li>
+
+
+    <li>
+
+      <div>
+
+        <strong>
+          Fundamentals of Cybersecurity
+        </strong>
+
+        <span>
+          Cybersecurity fundamentals
+        </span>
+
+      </div>
+
+    </li>
+
+
+    <li>
+
+      <div>
+
+        <strong>
+          Learning ServiceNow — Next Experience UI
+        </strong>
+
+        <span>
+          ServiceNow platform
+        </span>
+
+      </div>
+
+    </li>
+
+
+    <li>
+
+      <div>
+
+        <strong>
+          IT Service Desk: Service Management
+        </strong>
+
+        <span>
+          IT Service Management
+        </span>
+
+      </div>
+
+    </li>
+
+
+    <li>
+
+      <div>
+
+        <strong>
+          SC-900 — Security, Compliance &amp; Identity Fundamentals
+        </strong>
+
+        <span>
+          Microsoft
+        </span>
+
+      </div>
+
+      <span class="cert-status project-status building">
+        IN PROGRESS
       </span>
 
     </li>
@@ -2894,12 +3306,20 @@ footer .fine{
 
     <li>
 
-      <strong>
-        IPI-Fernando Aguado y Rico
-      </strong>
+      <div>
 
-      <span>
-        Computer Science
+        <strong>
+          AZ-500 — Azure Security Engineer Associate
+        </strong>
+
+        <span>
+          Microsoft
+        </span>
+
+      </div>
+
+      <span class="cert-status project-status planned">
+        PLANNED
       </span>
 
     </li>
@@ -2907,38 +3327,20 @@ footer .fine{
 
     <li>
 
-      <strong>
-        Fundamentals of Cybersecurity
-      </strong>
+      <div>
 
-      <span>
-        Cybersecurity fundamentals
-      </span>
+        <strong>
+          SC-300 — Identity and Access Administrator
+        </strong>
 
-    </li>
+        <span>
+          Microsoft
+        </span>
 
+      </div>
 
-    <li>
-
-      <strong>
-        Learning ServiceNow — Next Experience UI
-      </strong>
-
-      <span>
-        ServiceNow platform
-      </span>
-
-    </li>
-
-
-    <li>
-
-      <strong>
-        IT Service Desk: Service Management
-      </strong>
-
-      <span>
-        IT Service Management
+      <span class="cert-status project-status planned">
+        PLANNED
       </span>
 
     </li>
@@ -3089,8 +3491,8 @@ footer .fine{
 
   <p class="cta">
 
-    Interested in Cloud Infrastructure, AWS, Security,
-    Enterprise IT or Service Operations?
+    Interested in Identity &amp; Access Security, Azure, Enterprise IT
+    or Service Operations?
 
     <a href="mailto:cubalex1992@gmail.com">
       Let's connect.
@@ -3230,13 +3632,13 @@ document.addEventListener(
 
         typeLine(
           role,
-          'Service Assurance Engineer | IT Support Specialist',
+          'Service Assurance Engineer | Identity & Access (IAM)',
           16,
           function(){
 
             typeLine(
               focus,
-              'Cloud + AWS + Security + Enterprise IT + Operations',
+              'Azure + Entra ID + Zero Trust + Enterprise Security',
               14
             );
 
