@@ -671,6 +671,28 @@ section > p{
 }
 
 
+.card-icon{
+
+  position:relative;
+
+  width:1.6rem;
+
+  height:1.6rem;
+
+  margin-bottom:.7rem;
+
+  color:var(--accent-soft);
+}
+
+
+.card-icon svg{
+
+  width:100%;
+
+  height:100%;
+}
+
+
 .profile-card strong{
 
   display:block;
@@ -1457,6 +1479,160 @@ section > p{
 
 
 /* ==========================================================
+   CERTIFICATION JOURNEY (STORYBOOK CHAPTERS)
+========================================================== */
+
+.journey-intro{
+
+  color:var(--text-dim);
+
+  max-width:44rem;
+
+  margin-bottom:1.8rem;
+}
+
+
+.chapter-list{
+
+  list-style:none;
+
+  display:grid;
+
+  gap:1rem;
+}
+
+
+.chapter-card{
+
+  position:relative;
+
+  display:grid;
+
+  grid-template-columns:2.6rem 1fr;
+
+  gap:1rem;
+
+  background:var(--surface);
+
+  border:1px solid var(--border);
+
+  border-radius:9px;
+
+  padding:1.3rem 1.4rem;
+
+  transition:
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+
+.chapter-card:hover{
+
+  border-color:var(--border-light);
+
+  transform:translateY(-3px);
+}
+
+
+.chapter-icon{
+
+  width:2.6rem;
+
+  height:2.6rem;
+
+  border-radius:50%;
+
+  background:var(--surface-alt);
+
+  border:1px solid var(--border-light);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  color:var(--accent-soft);
+}
+
+
+.chapter-icon svg{
+
+  width:1.3rem;
+
+  height:1.3rem;
+}
+
+
+.chapter-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-start;
+
+  gap:1rem;
+
+  margin-bottom:.4rem;
+}
+
+
+.chapter-number{
+
+  display:block;
+
+  font-family:var(--mono);
+
+  font-size:.68rem;
+
+  color:var(--accent);
+
+  margin-bottom:.25rem;
+}
+
+
+.chapter-card h3{
+
+  font-size:1rem;
+
+  font-weight:600;
+}
+
+
+.chapter-card p{
+
+  color:var(--text-dim);
+
+  font-size:.88rem;
+
+  max-width:42rem;
+}
+
+
+.chapter-card.empty{
+
+  border-style:dashed;
+
+  align-items:center;
+}
+
+
+.chapter-card.empty .chapter-icon{
+
+  border-style:dashed;
+}
+
+
+.chapter-card.empty p{
+
+  font-size:.85rem;
+
+  margin-top:.2rem;
+}
+
+
+/* ==========================================================
    LANGUAGES
 ========================================================== */
 
@@ -1655,6 +1831,20 @@ footer .fine{
     gap:.3rem;
   }
 
+
+  .chapter-card{
+
+    grid-template-columns:1fr;
+  }
+
+
+  .chapter-header{
+
+    flex-direction:column;
+
+    gap:.25rem;
+  }
+
 }
 
 </style>
@@ -1749,13 +1939,6 @@ footer .fine{
   <nav class="links">
 
     <a
-      href="https://alexmartineztech.wordpress.com/"
-      target="_blank"
-      rel="noopener">
-      Blog
-    </a>
-
-    <a
       href="https://github.com/alexmartineztech"
       target="_blank"
       rel="noopener">
@@ -1794,6 +1977,8 @@ footer .fine{
     <a href="#approach">Approach</a>
 
     <a href="#education">Education</a>
+
+    <a href="#journey">Journey</a>
 
     <a href="#contact">Contact</a>
 
@@ -1866,6 +2051,13 @@ footer .fine{
 
     <div class="profile-card">
 
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l7 3v5c0 4.6-2.9 8.4-7 10-4.1-1.6-7-5.4-7-10V6l7-3z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      </div>
+
       <strong>
         IDENTITY &amp; ACCESS
       </strong>
@@ -1878,6 +2070,12 @@ footer .fine{
 
 
     <div class="profile-card">
+
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 18a4.5 4.5 0 0 1-.4-8.98A5.5 5.5 0 0 1 17.3 8.1 4 4 0 0 1 17 18H7z"/>
+        </svg>
+      </div>
 
       <strong>
         CLOUD
@@ -1892,6 +2090,12 @@ footer .fine{
 
     <div class="profile-card">
 
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12h4l2 7 4-14 2 7h6"/>
+        </svg>
+      </div>
+
       <strong>
         OPERATIONS
       </strong>
@@ -1904,6 +2108,15 @@ footer .fine{
 
 
     <div class="profile-card">
+
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 13v-1a8 8 0 0 1 16 0v1"/>
+          <rect x="3" y="13" width="4" height="6" rx="1.5"/>
+          <rect x="17" y="13" width="4" height="6" rx="1.5"/>
+          <path d="M20 19v1a3 3 0 0 1-3 3h-3"/>
+        </svg>
+      </div>
 
       <strong>
         ENTERPRISE SUPPORT
@@ -2095,7 +2308,7 @@ footer .fine{
 
 
 
-    <!-- IAD -->
+    <!-- EARLIER EXPERIENCE -->
 
     <li class="experience-item">
 
@@ -2104,264 +2317,39 @@ footer .fine{
         <div>
 
           <h3>
-            Customer Support Specialist — Tier 1 &amp; 2
+            Earlier: Support &amp; Identity Roles
           </h3>
 
           <div class="experience-company">
-            iad España
+            iad España · Validated ID
           </div>
 
         </div>
 
 
         <div class="experience-date">
-          Jul 2022 — Nov 2023
+          2020 — 2023
         </div>
 
       </div>
 
 
       <div class="experience-location">
-        Barcelona
+        Barcelona · SaaS, Cloud &amp; Identity
       </div>
 
 
       <ul>
 
         <li>
-          Remote and onsite technical support in corporate environments.
+          Microsoft 365 and Active Directory administration, user
+          onboarding and authentication management (iad España).
         </li>
 
         <li>
-          Microsoft 365 and Active Directory administration.
-        </li>
-
-        <li>
-          User onboarding, account provisioning and system configuration.
-        </li>
-
-        <li>
-          License, access and authentication management.
-        </li>
-
-        <li>
-          Hardware, software and network troubleshooting.
-        </li>
-
-      </ul>
-
-    </li>
-
-
-
-    <!-- VALIDATED ID -->
-
-    <li class="experience-item">
-
-      <div class="experience-header">
-
-        <div>
-
-          <h3>
-            Customer Support Specialist — Tier 1
-          </h3>
-
-          <div class="experience-company">
-            Validated ID
-          </div>
-
-        </div>
-
-
-        <div class="experience-date">
-          Oct 2020 — Jul 2022
-        </div>
-
-      </div>
-
-
-      <div class="experience-location">
-        SaaS · Cloud · Identity
-      </div>
-
-
-      <ul>
-
-        <li>
-          Technical support for SaaS and cloud environments.
-        </li>
-
-        <li>
-          Role, permission and user access management.
-        </li>
-
-        <li>
-          Support across PRE and PRO environments.
-        </li>
-
-        <li>
-          Integration validation and technical troubleshooting.
-        </li>
-
-        <li>
-          API troubleshooting and JSON validation.
-        </li>
-
-        <li>
-          Internal workflow improvement and technical documentation.
-        </li>
-
-      </ul>
-
-    </li>
-
-
-
-    <!-- SOFTWARE TESTER -->
-
-    <li class="experience-item">
-
-      <div class="experience-header">
-
-        <div>
-
-          <h3>
-            Software Tester
-          </h3>
-
-          <div class="experience-company">
-            Validated ID
-          </div>
-
-        </div>
-
-
-        <div class="experience-date">
-          2020 — 2022
-        </div>
-
-      </div>
-
-
-      <ul>
-
-        <li>
-          Participation in Google Workspace migrations and support.
-        </li>
-
-        <li>
-          Validation of system changes before production deployment.
-        </li>
-
-        <li>
-          Improvement of internal tools and workflows.
-        </li>
-
-        <li>
-          Collaboration with technical teams to improve system
-          stability and reliability.
-        </li>
-
-      </ul>
-
-    </li>
-
-
-
-    <!-- INVESTMARKETS -->
-
-    <li class="experience-item">
-
-      <div class="experience-header">
-
-        <div>
-
-          <h3>
-            Customer Relationship Management Manager
-          </h3>
-
-          <div class="experience-company">
-            investmarkets
-          </div>
-
-        </div>
-
-
-        <div class="experience-date">
-          Jan 2019 — Oct 2020
-        </div>
-
-      </div>
-
-
-      <div class="experience-location">
-        Barcelona
-      </div>
-
-
-      <ul>
-
-        <li>
-          CRM workflow automation and process optimization.
-        </li>
-
-        <li>
-          Team management and operational improvement.
-        </li>
-
-        <li>
-          Customer retention and conversion KPI optimization.
-        </li>
-
-      </ul>
-
-    </li>
-
-
-
-    <!-- LUYANO -->
-
-    <li class="experience-item">
-
-      <div class="experience-header">
-
-        <div>
-
-          <h3>
-            Junior IT Technician
-          </h3>
-
-          <div class="experience-company">
-            Luyano Footwear Factory
-          </div>
-
-        </div>
-
-
-        <div class="experience-date">
-          Sep 2014 — Oct 2017
-        </div>
-
-      </div>
-
-
-      <div class="experience-location">
-        Havana, Cuba
-      </div>
-
-
-      <ul>
-
-        <li>
-          IT support for local infrastructure and end users.
-        </li>
-
-        <li>
-          Hardware, software and network maintenance.
-        </li>
-
-        <li>
-          Database support, operational reporting and data validation.
+          Technical support for a SaaS identity platform, including
+          role, permission and access management across PRE/PRO
+          environments (Validated ID).
         </li>
 
       </ul>
@@ -2609,29 +2597,6 @@ footer .fine{
     <div class="stack-col">
 
       <h3>
-        # enterprise-support
-      </h3>
-
-      <ul>
-
-        <li>Microsoft 365</li>
-        <li>Teams</li>
-        <li>Outlook</li>
-        <li>SharePoint</li>
-        <li>OneDrive</li>
-        <li>ServiceNow</li>
-        <li>VIP Support</li>
-        <li>IT Asset Management</li>
-
-      </ul>
-
-    </div>
-
-
-
-    <div class="stack-col">
-
-      <h3>
         # operations
       </h3>
 
@@ -2644,26 +2609,6 @@ footer .fine{
         <li>SLA / KPI Management</li>
         <li>24/7 Operations</li>
         <li>Continuous Improvement</li>
-
-      </ul>
-
-    </div>
-
-
-
-    <div class="stack-col">
-
-      <h3>
-        # networking
-      </h3>
-
-      <ul>
-
-        <li>TCP/IP</li>
-        <li>VPN</li>
-        <li>Connectivity Troubleshooting</li>
-        <li>Network Troubleshooting</li>
-        <li>Remote Support</li>
 
       </ul>
 
@@ -3254,28 +3199,11 @@ footer .fine{
       <div>
 
         <strong>
-          Learning ServiceNow — Next Experience UI
+          ServiceNow &amp; IT Service Management Training
         </strong>
 
         <span>
-          ServiceNow platform
-        </span>
-
-      </div>
-
-    </li>
-
-
-    <li>
-
-      <div>
-
-        <strong>
-          IT Service Desk: Service Management
-        </strong>
-
-        <span>
-          IT Service Management
+          Next Experience UI · Service Desk fundamentals
         </span>
 
       </div>
@@ -3342,6 +3270,250 @@ footer .fine{
       <span class="cert-status project-status planned">
         PLANNED
       </span>
+
+    </li>
+
+
+  </ul>
+
+</section>
+
+
+
+<!-- ==========================================================
+     CERTIFICATION JOURNEY
+========================================================== -->
+
+<section
+  class="reveal"
+  id="journey">
+
+  <h2>
+    The certification journey
+  </h2>
+
+  <p class="journey-intro">
+    Every certification here started the same way: a closed door, a
+    laptop, and no notifications. This is the short version of how
+    each chapter actually happened — not the exam score, but the
+    evenings that got me there.
+  </p>
+
+
+  <ul class="chapter-list">
+
+
+    <!-- CHAPTER 1 -->
+
+    <li class="chapter-card">
+
+      <div class="chapter-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
+          <path d="M12 6v13"/>
+        </svg>
+      </div>
+
+      <div>
+
+        <div class="chapter-header">
+
+          <div>
+            <span class="chapter-number">Chapter 1</span>
+            <h3>Where the curiosity started</h3>
+          </div>
+
+          <span class="project-status shipped">DONE</span>
+
+        </div>
+
+        <p>
+          Long before Entra ID or Conditional Access meant anything to
+          me, there was a simple question: how does anyone actually
+          keep a system safe? Fundamentals of Cybersecurity was the
+          first real answer — the course that turned a vague interest
+          into a direction worth chasing.
+        </p>
+
+      </div>
+
+    </li>
+
+
+
+    <!-- CHAPTER 2 -->
+
+    <li class="chapter-card">
+
+      <div class="chapter-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
+          <path d="M12 6v13"/>
+        </svg>
+      </div>
+
+      <div>
+
+        <div class="chapter-header">
+
+          <div>
+            <span class="chapter-number">Chapter 2</span>
+            <h3>Learning the language operations speaks</h3>
+          </div>
+
+          <span class="project-status shipped">DONE</span>
+
+        </div>
+
+        <p>
+          Before I could fix anything at scale, I had to learn how
+          enterprise IT actually organizes itself — tickets, SLAs,
+          escalation paths. ServiceNow and ITSM training gave me the
+          vocabulary that now runs underneath every incident I manage.
+        </p>
+
+      </div>
+
+    </li>
+
+
+
+    <!-- CHAPTER 3 - CURRENT -->
+
+    <li class="chapter-card">
+
+      <div class="chapter-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
+          <path d="M12 6v13"/>
+        </svg>
+      </div>
+
+      <div>
+
+        <div class="chapter-header">
+
+          <div>
+            <span class="chapter-number">Chapter 3</span>
+            <h3>The one I'm writing right now</h3>
+          </div>
+
+          <span class="project-status building">IN PROGRESS</span>
+
+        </div>
+
+        <p>
+          This chapter happens after hours, in my room, phone
+          face-down, one tab open. No podcasts, no second screen —
+          just Entra ID, Zero Trust and Purview, one module at a time,
+          until the concepts stop feeling like vocabulary and start
+          feeling like a way of seeing systems. SC-900 is the least
+          glamorous part of the story so far, and the one that
+          matters most.
+        </p>
+
+      </div>
+
+    </li>
+
+
+
+    <!-- CHAPTER 4 -->
+
+    <li class="chapter-card">
+
+      <div class="chapter-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
+          <path d="M12 6v13"/>
+        </svg>
+      </div>
+
+      <div>
+
+        <div class="chapter-header">
+
+          <div>
+            <span class="chapter-number">Chapter 4</span>
+            <h3>Where the instinct becomes engineering</h3>
+          </div>
+
+          <span class="project-status planned">PLANNED</span>
+
+        </div>
+
+        <p>
+          Once SC-900 closes, AZ-500 opens the next door: turning
+          three years of hands-on Azure identity work into a formal,
+          defensible security engineering foundation — network
+          security, Key Vault, Defender and logging, built and broken
+          in a lab of my own.
+        </p>
+
+      </div>
+
+    </li>
+
+
+
+    <!-- CHAPTER 5 -->
+
+    <li class="chapter-card">
+
+      <div class="chapter-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
+          <path d="M12 6v13"/>
+        </svg>
+      </div>
+
+      <div>
+
+        <div class="chapter-header">
+
+          <div>
+            <span class="chapter-number">Chapter 5</span>
+            <h3>Identity, from the administrator's side</h3>
+          </div>
+
+          <span class="project-status planned">PLANNED</span>
+
+        </div>
+
+        <p>
+          The closing chapter of this arc — proving, formally, what
+          the last three years already taught me on the job: how to
+          design and run identity and access at enterprise scale.
+        </p>
+
+      </div>
+
+    </li>
+
+
+
+    <!-- NEXT CHAPTER - EMPTY -->
+
+    <li class="chapter-card empty">
+
+      <div class="chapter-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+
+      <div>
+
+        <div class="chapter-header">
+          <h3>Next chapter</h3>
+        </div>
+
+        <p>
+          Reserved for whatever comes after SC-300 — this page grows
+          one certification, one lab and one late evening at a time.
+        </p>
+
+      </div>
 
     </li>
 
@@ -3502,13 +3674,6 @@ footer .fine{
 
 
   <nav class="links">
-
-    <a
-      href="https://alexmartineztech.wordpress.com/"
-      target="_blank"
-      rel="noopener">
-      Blog
-    </a>
 
     <a
       href="https://github.com/alexmartineztech"
