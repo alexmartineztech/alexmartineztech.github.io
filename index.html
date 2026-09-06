@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Alexander Pineda Martinez — Identity & Access Security · Cloud · IT Operations</title>
+<title>Alexander Pineda Martinez · Identity & Access Security · Cloud · IT Operations</title>
 
 <meta name="description"
-      content="Alexander Pineda Martinez — Service Assurance Engineer building toward Identity & Access Security, with hands-on enterprise experience in Azure, Entra ID, Intune, IAM and critical incident management.">
+      content="Alexander Pineda Martinez, Service Assurance Engineer building toward Identity & Access Security, with hands-on enterprise experience in Azure, Entra ID, Intune, IAM and critical incident management.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,6 +86,58 @@ body{
   line-height:1.65;
 
   overflow-x:hidden;
+
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+
+  -webkit-touch-callout:none;
+}
+
+
+/* Contact links stay selectable/copyable so the email is usable */
+.contact-item,
+.contact-item *{
+
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text;
+}
+
+
+@media print{
+
+  body{
+
+    visibility:hidden;
+  }
+
+
+  body::after{
+
+    content:"This page is not available for printing or export. Please visit the live site.";
+
+    visibility:visible;
+
+    position:fixed;
+
+    top:40%;
+
+    left:0;
+
+    right:0;
+
+    text-align:center;
+
+    font-family:var(--sans);
+
+    font-size:1rem;
+
+    color:#000;
+  }
+
 }
 
 
@@ -1003,6 +1055,18 @@ section > p{
 }
 
 
+.project-link-pending{
+
+  font-family:var(--mono);
+
+  font-size:.75rem;
+
+  color:var(--text-dim);
+
+  font-style:italic;
+}
+
+
 .project-card.empty p{
 
   margin-bottom:0;
@@ -1675,7 +1739,7 @@ section > p{
   display:grid;
 
   grid-template-columns:
-    repeat(2,1fr);
+    repeat(auto-fit,minmax(220px,1fr));
 
   gap:1rem;
 }
@@ -1929,7 +1993,7 @@ footer .fine{
 
     Service Assurance Engineer with hands-on enterprise experience in
     identity and access management, building toward Identity &amp;
-    Access Security and Cloud Security — on top of three years running
+    Access Security and Cloud Security, on top of three years running
     IAM, endpoint identity and critical incident response inside
     regulated, global environments.
 
@@ -2042,6 +2106,18 @@ footer .fine{
     specialization in Identity &amp; Access Security and Cloud
     Security, through structured certification (SC-900, AZ-500,
     SC-300) and hands-on lab projects documented in the section below.
+
+  </p>
+
+
+  <p>
+
+    I follow recognized voices in the security community, including
+    Chema Alonso's work on identity, authentication and digital risk,
+    to help shape how I think about the field. I do not currently hold
+    offensive-security or penetration-testing skills; my background is
+    in identity administration and enterprise operations, and every
+    specialization claimed on this page is scoped to that experience.
 
   </p>
 
@@ -2170,7 +2246,7 @@ footer .fine{
 
 
         <div class="experience-date">
-          Jul 2026 — Present
+          Jul 2026 - Present
         </div>
 
       </div>
@@ -2239,7 +2315,7 @@ footer .fine{
         <div>
 
           <h3>
-            Information Technology Specialist — Tier 2
+            Information Technology Specialist, Tier 2
           </h3>
 
           <div class="experience-company">
@@ -2250,7 +2326,7 @@ footer .fine{
 
 
         <div class="experience-date">
-          Nov 2023 — Jul 2026
+          Nov 2023 - Jul 2026
         </div>
 
       </div>
@@ -2328,7 +2404,7 @@ footer .fine{
 
 
         <div class="experience-date">
-          2020 — 2023
+          2020 - 2023
         </div>
 
       </div>
@@ -2381,8 +2457,8 @@ footer .fine{
 
       <p>
         Hands-on lab work that backs up the certifications and the
-        Identity &amp; Access Security direction — documented as I
-        build it, not claimed in advance.
+        Identity &amp; Access Security direction, documented as I
+        build it rather than claimed in advance.
       </p>
 
     </div>
@@ -2418,7 +2494,7 @@ footer .fine{
         policies, MFA enforcement, Privileged Identity Management (PIM)
         and baseline Zero Trust controls. Documenting each control,
         the reasoning behind it, and how it maps to real enterprise
-        risk — not just a checklist of settings enabled.
+        risk, not just a checklist of settings enabled.
       </p>
 
       <div class="project-meta">
@@ -2430,7 +2506,7 @@ footer .fine{
       </div>
 
       <div class="project-links">
-        <a href="#">Write-up (coming soon)</a>
+        <span class="project-link-pending">Write-up in progress</span>
         <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener">GitHub</a>
       </div>
 
@@ -2445,7 +2521,7 @@ footer .fine{
       <div class="project-header">
 
         <h3>
-          Major Incident Playbook — Identity &amp; Access Cases
+          Major Incident Playbook: Identity &amp; Access Cases
         </h3>
 
         <span class="project-status building">
@@ -2457,7 +2533,7 @@ footer .fine{
       <p>
         A sanitized, generalized incident response playbook built from
         patterns seen in real major incidents involving access and
-        authentication failures — detection, escalation path, containment
+        authentication failures: detection, escalation path, containment
         and post-incident review structure, written so it is reusable
         without exposing any client-confidential detail.
       </p>
@@ -2470,7 +2546,7 @@ footer .fine{
       </div>
 
       <div class="project-links">
-        <a href="#">Write-up (coming soon)</a>
+        <span class="project-link-pending">Write-up in progress</span>
       </div>
 
     </li>
@@ -2520,7 +2596,7 @@ footer .fine{
       </span>
 
       <p>
-        This space is reserved for the next project — new write-ups
+        This space is reserved for the next project. New write-ups
         get added here as each certification and lab is completed.
       </p>
 
@@ -2655,8 +2731,8 @@ footer .fine{
 
   <p>
     Practical notes based on enterprise identity, security, incident
-    operations and Microsoft cloud environments — written from
-    hands-on experience, not theory.
+    operations and Microsoft cloud environments, written from
+    hands-on experience rather than theory.
   </p>
 
 
@@ -2837,7 +2913,7 @@ footer .fine{
 
     <p>
 
-      Azure is the primary cloud platform in current use — through
+      Azure is the primary cloud platform in current use, through
       Entra ID, Intune and enterprise device management. Current
       study is extending that operational base toward AZ-500-level
       security engineering: network security, Key Vault, logging and
@@ -3151,7 +3227,7 @@ footer .fine{
         </strong>
 
         <span>
-          Master's Degree Programs — Full Stack Development /
+          Master's Degree Programs: Full Stack Development /
           Computer Programming
         </span>
 
@@ -3216,7 +3292,7 @@ footer .fine{
       <div>
 
         <strong>
-          SC-900 — Security, Compliance &amp; Identity Fundamentals
+          SC-900: Security, Compliance &amp; Identity Fundamentals
         </strong>
 
         <span>
@@ -3237,7 +3313,7 @@ footer .fine{
       <div>
 
         <strong>
-          AZ-500 — Azure Security Engineer Associate
+          AZ-500: Azure Security Engineer Associate
         </strong>
 
         <span>
@@ -3258,7 +3334,7 @@ footer .fine{
       <div>
 
         <strong>
-          SC-300 — Identity and Access Administrator
+          SC-300: Identity and Access Administrator
         </strong>
 
         <span>
@@ -3293,10 +3369,10 @@ footer .fine{
   </h2>
 
   <p class="journey-intro">
-    Every certification here started the same way: a closed door, a
-    laptop, and no notifications. This is the short version of how
-    each chapter actually happened — not the exam score, but the
-    evenings that got me there.
+    A short account of the study path behind each certification:
+    what prompted it, what it built on, and what it leads to next.
+    Included for context, not as a substitute for the credentials
+    themselves.
   </p>
 
 
@@ -3328,11 +3404,11 @@ footer .fine{
         </div>
 
         <p>
-          Long before Entra ID or Conditional Access meant anything to
-          me, there was a simple question: how does anyone actually
-          keep a system safe? Fundamentals of Cybersecurity was the
-          first real answer — the course that turned a vague interest
-          into a direction worth chasing.
+          Before working with Entra ID or Conditional Access in a
+          production environment, I completed a foundations course in
+          cybersecurity to build a structured understanding of core
+          concepts: threats, controls and risk. It set the direction
+          for everything that followed.
         </p>
 
       </div>
@@ -3366,10 +3442,10 @@ footer .fine{
         </div>
 
         <p>
-          Before I could fix anything at scale, I had to learn how
-          enterprise IT actually organizes itself — tickets, SLAs,
-          escalation paths. ServiceNow and ITSM training gave me the
-          vocabulary that now runs underneath every incident I manage.
+          Working at scale in enterprise IT requires a shared
+          operational language: tickets, SLAs, escalation paths.
+          ServiceNow and ITSM training provided that framework, and
+          it now underlies the way I manage every incident.
         </p>
 
       </div>
@@ -3403,13 +3479,12 @@ footer .fine{
         </div>
 
         <p>
-          This chapter happens after hours, in my room, phone
-          face-down, one tab open. No podcasts, no second screen —
-          just Entra ID, Zero Trust and Purview, one module at a time,
-          until the concepts stop feeling like vocabulary and start
-          feeling like a way of seeing systems. SC-900 is the least
-          glamorous part of the story so far, and the one that
-          matters most.
+          Currently in progress, studied outside working hours: Entra
+          ID, Zero Trust principles and Microsoft Purview, covered
+          module by module until the material moves from vocabulary
+          to a working mental model. SC-900 is the least visible
+          credential on this page and, at this stage, the most
+          foundational one.
         </p>
 
       </div>
@@ -3445,7 +3520,7 @@ footer .fine{
         <p>
           Once SC-900 closes, AZ-500 opens the next door: turning
           three years of hands-on Azure identity work into a formal,
-          defensible security engineering foundation — network
+          defensible security engineering foundation covering network
           security, Key Vault, Defender and logging, built and broken
           in a lab of my own.
         </p>
@@ -3481,7 +3556,7 @@ footer .fine{
         </div>
 
         <p>
-          The closing chapter of this arc — proving, formally, what
+          The closing chapter of this arc, aimed at formally proving what
           the last three years already taught me on the job: how to
           design and run identity and access at enterprise scale.
         </p>
@@ -3509,8 +3584,8 @@ footer .fine{
         </div>
 
         <p>
-          Reserved for whatever comes after SC-300 — this page grows
-          one certification, one lab and one late evening at a time.
+          Reserved for whatever comes after SC-300. This page grows with
+          each new certification and lab.
         </p>
 
       </div>
@@ -3592,19 +3667,6 @@ footer .fine{
 
       <a href="mailto:cubalex1992@gmail.com">
         cubalex1992@gmail.com
-      </a>
-
-    </div>
-
-
-    <div class="contact-item">
-
-      <small>
-        PHONE
-      </small>
-
-      <a href="tel:+34633969516">
-        +34 633 969 516
       </a>
 
     </div>
@@ -3717,6 +3779,48 @@ footer .fine{
 ========================================================== -->
 
 <script>
+
+
+/* ==========================================================
+   CONTENT PROTECTION
+   Basic client-side friction against casual copying/saving.
+   Note: this deters casual copying only. It cannot fully
+   prevent someone determined to view page source.
+========================================================== */
+
+document.addEventListener('contextmenu', function(event){
+
+  if(event.target.closest('.contact-item')){
+
+    return;
+
+  }
+
+  event.preventDefault();
+
+});
+
+
+document.addEventListener('keydown', function(event){
+
+  const key = event.key.toLowerCase();
+
+  const blockedWithCtrlOrCmd =
+    ['s','p','u'].includes(key) &&
+    (event.ctrlKey || event.metaKey);
+
+  const blockedDevTools =
+    key === 'f12' ||
+    (event.ctrlKey && event.shiftKey && ['i','j','c'].includes(key));
+
+  if(blockedWithCtrlOrCmd || blockedDevTools){
+
+    event.preventDefault();
+
+  }
+
+});
+
 
 
 /* ==========================================================
