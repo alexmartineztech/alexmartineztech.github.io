@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Alexander Pineda Martinez · Identity & Access Security · Cloud · IT Operations</title>
 
@@ -36,6 +36,31 @@
 
   --warning:#d29922;
   --danger:#f85149;
+
+  /* ----------------------------------------------------------
+     SECURITY SEMANTIC PALETTE
+     Same hues a SOC dashboard uses to encode meaning, reused
+     consistently across tags, headers and the hero graph so
+     color always tells you the category, not just decorates it.
+     identity/access = blue · cloud = teal · operations = amber
+     study/hardening = violet
+  ---------------------------------------------------------- */
+  --sec-identity:#58a6ff;
+  --sec-cloud:#4dd4d0;
+  --sec-ops:#d29922;
+  --sec-study:#b98cff;
+  --sec-verified:#3fb950;
+  --sec-denied:#f85149;
+
+  /* Fluid layout scale — every screen from a small phone to an
+     ultrawide monitor reads from the same set of proportions. */
+  --page-max:820px;
+  --page-pad-x:clamp(1rem, 4vw, 1.5rem);
+  --space-y:clamp(3.5rem, 8vw, 6rem);
+  --safe-top:env(safe-area-inset-top, 0px);
+  --safe-bottom:env(safe-area-inset-bottom, 0px);
+  --safe-left:env(safe-area-inset-left, 0px);
+  --safe-right:env(safe-area-inset-right, 0px);
 
   --sans:'IBM Plex Sans',
          -apple-system,
@@ -96,7 +121,6 @@ body{
 }
 
 
-/* Contact links stay selectable/copyable so the email is usable */
 .contact-item,
 .contact-item *{
 
@@ -110,86 +134,145 @@ body{
 @media print{
 
   body{
-
     visibility:hidden;
   }
-
 
   body::after{
 
     content:"This page is not available for printing or export. Please visit the live site.";
-
     visibility:visible;
-
     position:fixed;
-
     top:40%;
-
     left:0;
-
     right:0;
-
     text-align:center;
-
     font-family:var(--sans);
-
     font-size:1rem;
-
     color:#000;
   }
-
 }
 
 
+/* Faint structural grid kept, now layered *above* the starfield
+   at very low opacity so it reads as texture, not the main scene */
 body::before{
 
   content:"";
-
   position:fixed;
-
   inset:0;
-
   pointer-events:none;
 
   background-image:
-    linear-gradient(
-      rgba(255,255,255,.015) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.015) 1px,
-      transparent 1px
-    );
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
 
   background-size:50px 50px;
 
-  mask-image:linear-gradient(
-    to bottom,
-    black,
-    transparent 90%
-  );
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
 
   z-index:-1;
 }
 
 
 .page{
-
-  max-width:820px;
-
+  max-width:min(var(--page-max), 100% - var(--safe-left) - var(--safe-right));
   margin:0 auto;
+  padding:
+    calc(var(--space-y) + var(--safe-top))
+    calc(var(--page-pad-x) + var(--safe-left))
+    var(--space-y)
+    calc(var(--page-pad-x) + var(--safe-right));
+}
 
-  padding:5rem 1.5rem 5rem;
+img, svg{ max-width:100%; }
+
+/* Any long identifier (email, url) wraps instead of forcing
+   horizontal scroll on narrow screens */
+.contact-item a,
+.experience-company,
+.project-link-pending{
+  overflow-wrap:anywhere;
 }
 
 
-a{
-  color:var(--accent-soft);
+a{ color:var(--accent-soft); }
+a:hover{ color:var(--accent); }
+
+
+/* ==========================================================
+   SPACE FIELD — the immersive backdrop
+   A slow, quiet starfield that runs the full height of the
+   page (not just the hero), so the whole scroll feels like one
+   continuous environment rather than a hero effect that ends.
+   Pure decoration: aria-hidden, non-interactive, and reduced
+   to a static frame under prefers-reduced-motion.
+========================================================== */
+
+.space-field{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  z-index:-2;
+  pointer-events:none;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse 900px 600px at 15% -10%, rgba(88,166,255,.10), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(185,140,255,.07), transparent 55%),
+    radial-gradient(ellipse 800px 700px at 50% 110%, rgba(63,185,80,.045), transparent 60%),
+    var(--bg);
 }
 
-a:hover{
-  color:var(--accent);
+.space-field::before,
+.space-field::after{
+  content:"";
+  position:absolute;
+  inset:-15%;
+}
+
+.space-field::before{
+  background-image:
+    radial-gradient(1px 1px at 40px 60px, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 180px 120px, rgba(255,255,255,.7), transparent),
+    radial-gradient(1.5px 1.5px at 300px 40px, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 400px 240px, rgba(255,255,255,.6), transparent),
+    radial-gradient(1px 1px at 80px 300px, rgba(255,255,255,.55), transparent),
+    radial-gradient(1.5px 1.5px at 520px 160px, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 640px 400px, rgba(255,255,255,.6), transparent),
+    radial-gradient(1px 1px at 220px 440px, rgba(255,255,255,.7), transparent);
+  background-repeat:repeat;
+  background-size:700px 500px;
+  opacity:.85;
+  animation:driftStarsNear 240s linear infinite;
+}
+
+.space-field::after{
+  background-image:
+    radial-gradient(1.5px 1.5px at 100px 80px, rgba(205,222,255,.55), transparent),
+    radial-gradient(1px 1px at 320px 260px, rgba(205,222,255,.4), transparent),
+    radial-gradient(2px 2px at 500px 120px, rgba(205,222,255,.5), transparent),
+    radial-gradient(1px 1px at 620px 360px, rgba(205,222,255,.4), transparent),
+    radial-gradient(1.5px 1.5px at 40px 400px, rgba(205,222,255,.45), transparent),
+    radial-gradient(1px 1px at 760px 60px, rgba(205,222,255,.4), transparent);
+  background-repeat:repeat;
+  background-size:820px 600px;
+  opacity:.55;
+  animation:driftStarsFar 380s linear infinite reverse;
+}
+
+@keyframes driftStarsNear{
+  from{ transform:translate3d(0,0,0); }
+  to{ transform:translate3d(-700px,-500px,0); }
+}
+
+@keyframes driftStarsFar{
+  from{ transform:translate3d(0,0,0); }
+  to{ transform:translate3d(-820px,-600px,0); }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .space-field::before,
+  .space-field::after{ animation:none; }
 }
 
 
@@ -198,40 +281,50 @@ a:hover{
 ========================================================== */
 
 .reveal{
-
   opacity:0;
-
-  transform:
-    translateY(30px)
-    scale(.985);
-
-  transition:
-    opacity .8s cubic-bezier(.16,1,.3,1),
-    transform .8s cubic-bezier(.16,1,.3,1);
+  transform:translateY(30px) scale(.985);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1),
+             transform .8s cubic-bezier(.16,1,.3,1);
 }
-
 
 .reveal.visible{
-
   opacity:1;
-
-  transform:
-    translateY(0)
-    scale(1);
+  transform:translateY(0) scale(1);
 }
 
-
 @media(prefers-reduced-motion:reduce){
-
   .reveal{
-
     opacity:1;
-
     transform:none;
-
     transition:none;
   }
 }
+
+
+/* ==========================================================
+   SECTION HEADINGS — decrypt-reveal target
+   No extra chrome added; the existing h2 just becomes the
+   surface the decrypt effect runs on once, on first reveal.
+========================================================== */
+
+section h2{
+  font-size:1.35rem;
+  font-weight:600;
+  margin-bottom:1.3rem;
+  letter-spacing:-.01em;
+  font-variant-ligatures:none;
+}
+
+section h2.decrypting{
+  color:var(--accent-soft);
+}
+
+section > p{
+  color:var(--text-dim);
+  max-width:44rem;
+}
+
+.about p + p{ margin-top:1rem; }
 
 
 /* ==========================================================
@@ -239,35 +332,49 @@ a:hover{
 ========================================================== */
 
 .hero{
-
   margin-bottom:6rem;
-
   position:relative;
 }
 
-
 .hero::after{
-
   content:"";
-
   position:absolute;
-
   width:280px;
   height:280px;
-
   top:-100px;
   right:-150px;
-
   border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(88,166,255,.09),
-      transparent 65%
-    );
-
+  background:radial-gradient(circle,rgba(88,166,255,.09),transparent 65%);
   pointer-events:none;
+}
+
+/* Zero Trust verification graph — the one bold moment on the
+   page. Sits behind the terminal and hero copy, low-opacity so
+   it never competes with reading contrast. */
+.hero-graph{
+  position:absolute;
+  inset:-40px -20px auto -20px;
+  height:600px;
+  width:calc(100% + 40px);
+  z-index:0;
+  pointer-events:none;
+  opacity:.4;
+}
+
+.hero > *:not(.hero-graph){
+  position:relative;
+  z-index:1;
+}
+
+.hero-graph-caption{
+  position:absolute;
+  right:0;
+  top:-1.6rem;
+  font-family:var(--mono);
+  font-size:.62rem;
+  letter-spacing:.03em;
+  color:var(--text-dim);
+  z-index:1;
 }
 
 
@@ -276,197 +383,104 @@ a:hover{
 ========================================================== */
 
 .terminal{
-
   position:relative;
-
   background:rgba(14,19,26,.9);
-
   border:1px solid var(--border);
-
   border-radius:10px;
-
   overflow:hidden;
-
-  box-shadow:
-    0 30px 80px -35px rgba(0,0,0,.8),
-    0 0 0 1px rgba(255,255,255,.01);
-
+  box-shadow:0 30px 80px -35px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.01);
   margin-bottom:2.5rem;
-
-  animation:
-    terminalEntry 1s cubic-bezier(.16,1,.3,1);
+  animation:terminalEntry 1s cubic-bezier(.16,1,.3,1);
 }
-
 
 @keyframes terminalEntry{
-
-  from{
-
-    opacity:0;
-
-    transform:
-      translateY(30px)
-      scale(.97);
-
-  }
-
-  to{
-
-    opacity:1;
-
-    transform:
-      translateY(0)
-      scale(1);
-
-  }
+  from{ opacity:0; transform:translateY(30px) scale(.97); }
+  to{ opacity:1; transform:translateY(0) scale(1); }
 }
-
 
 .terminal::before{
-
   content:"";
-
   position:absolute;
-
   inset:0;
-
-  background:
-    linear-gradient(
-      120deg,
-      transparent 25%,
-      rgba(88,166,255,.04),
-      transparent 75%
-    );
-
-  transform:
-    translateX(-100%);
-
-  animation:
-    terminalSweep 5s ease-in-out infinite;
+  background:linear-gradient(120deg,transparent 25%,rgba(88,166,255,.04),transparent 75%);
+  transform:translateX(-100%);
+  animation:terminalSweep 5s ease-in-out infinite;
 }
-
 
 @keyframes terminalSweep{
-
-  0%,55%{
-    transform:translateX(-100%);
-  }
-
-  75%,100%{
-    transform:translateX(100%);
-  }
+  0%,55%{ transform:translateX(-100%); }
+  75%,100%{ transform:translateX(100%); }
 }
 
-
 .terminal-bar{
-
   display:flex;
-
   align-items:center;
-
   gap:.4rem;
-
   padding:.7rem .9rem;
-
   background:var(--surface-alt);
-
   border-bottom:1px solid var(--border);
-
   position:relative;
-
   z-index:2;
 }
 
-
-.dot{
-
-  width:.6rem;
-
-  height:.6rem;
-
-  border-radius:50%;
-
-  display:inline-block;
-}
-
-
-.dot.red{
-  background:#f85149;
-}
-
-.dot.yellow{
-  background:#d29922;
-}
-
-.dot.green{
-  background:#3fb950;
-}
-
+.dot{ width:.6rem; height:.6rem; border-radius:50%; display:inline-block; }
+.dot.red{ background:#f85149; }
+.dot.yellow{ background:#d29922; }
+.dot.green{ background:#3fb950; }
 
 .terminal-title{
-
   font-family:var(--mono);
-
   font-size:.75rem;
-
   color:var(--text-dim);
-
   margin-left:.5rem;
 }
 
+.terminal-status{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:.35rem;
+  font-family:var(--mono);
+  font-size:.65rem;
+  color:var(--sec-verified);
+}
+
+.terminal-status .led{
+  width:.4rem;
+  height:.4rem;
+  border-radius:50%;
+  background:var(--sec-verified);
+  box-shadow:0 0 6px var(--sec-verified);
+  animation:ledPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes ledPulse{
+  0%,100%{ opacity:1; }
+  50%{ opacity:.35; }
+}
 
 .terminal-body{
-
-  padding:1.3rem 1.3rem 1.5rem;
-
+  padding:clamp(1rem,4vw,1.3rem) clamp(.9rem,4vw,1.3rem) clamp(1.1rem,4vw,1.5rem);
   font-family:var(--mono);
-
-  font-size:.82rem;
-
+  font-size:clamp(.72rem,2.6vw,.82rem);
   position:relative;
-
   z-index:2;
+  overflow-wrap:anywhere;
 }
 
+.terminal-body p{ margin:.2rem 0; white-space:pre-wrap; }
 
-.terminal-body p{
+.prompt{ color:var(--green); }
 
-  margin:.2rem 0;
-
-  white-space:pre-wrap;
-}
-
-
-.prompt{
-  color:var(--green);
-}
-
-
-.output{
-
-  color:var(--accent-soft);
-
-  min-height:1.2em;
-}
-
+.output{ color:var(--accent-soft); min-height:1.2em; }
 
 .cursor{
-
   display:inline-block;
-
   animation:blink 1s step-start infinite;
-
   color:var(--text-dim);
 }
 
-
-@keyframes blink{
-
-  50%{
-    opacity:0;
-  }
-
-}
+@keyframes blink{ 50%{ opacity:0; } }
 
 
 /* ==========================================================
@@ -474,26 +488,23 @@ a:hover{
 ========================================================== */
 
 .hero h1{
-
-  font-size:2.25rem;
-
+  font-size:clamp(1.5rem, 4.6vw + .6rem, 2.25rem);
   font-weight:600;
-
   letter-spacing:-.025em;
-
   margin-bottom:.65rem;
+  overflow-wrap:anywhere;
 }
 
-
 .hero .tagline{
-
   color:var(--text-dim);
-
-  font-size:1.08rem;
-
+  font-size:clamp(.95rem, 1.6vw + .7rem, 1.08rem);
   max-width:48rem;
-
   margin-bottom:2rem;
+}
+
+.hero .tagline strong{
+  color:var(--sec-identity);
+  font-weight:600;
 }
 
 
@@ -501,50 +512,24 @@ a:hover{
    BUTTON LINKS
 ========================================================== */
 
-nav.links{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:.6rem;
-}
-
+nav.links{ display:flex; flex-wrap:wrap; gap:.6rem; }
 
 nav.links a{
-
   font-family:var(--mono);
-
   font-size:.78rem;
-
   color:var(--text);
-
   background:var(--surface);
-
   border:1px solid var(--border);
-
   padding:.55rem 1rem;
-
   border-radius:6px;
-
   text-decoration:none;
-
-  transition:
-    border-color .2s ease,
-    color .2s ease,
-    transform .2s ease,
-    background .2s ease;
+  transition:border-color .2s ease,color .2s ease,transform .2s ease,background .2s ease;
 }
 
-
 nav.links a:hover{
-
   border-color:var(--accent);
-
   color:var(--accent-soft);
-
   background:var(--surface-light);
-
   transform:translateY(-2px);
 }
 
@@ -554,101 +539,41 @@ nav.links a:hover{
 ========================================================== */
 
 nav.sections{
-
   display:flex;
-
   flex-wrap:wrap;
-
   gap:1.3rem;
-
   margin-top:2.2rem;
-
   padding-top:1.3rem;
-
   border-top:1px solid var(--border);
 }
 
-
 nav.sections a{
-
   font-size:.8rem;
-
   color:var(--text-dim);
-
   text-decoration:none;
-
   position:relative;
 }
 
-
 nav.sections a::after{
-
   content:"";
-
   position:absolute;
-
   left:0;
-
   bottom:-5px;
-
   width:0;
-
   height:1px;
-
   background:var(--accent);
-
   transition:width .25s ease;
 }
 
-
-nav.sections a:hover{
-
-  color:var(--accent-soft);
-}
-
-
-nav.sections a:hover::after{
-
-  width:100%;
-}
+nav.sections a:hover{ color:var(--accent-soft); }
+nav.sections a:hover::after{ width:100%; }
 
 
 /* ==========================================================
    SECTIONS
 ========================================================== */
 
-section{
-
-  margin-bottom:5.5rem;
-
-  scroll-margin-top:60px;
-}
-
-
-section h2{
-
-  font-size:1.35rem;
-
-  font-weight:600;
-
-  margin-bottom:1.3rem;
-
-  letter-spacing:-.01em;
-}
-
-
-section > p{
-
-  color:var(--text-dim);
-
-  max-width:44rem;
-}
-
-
-.about p + p{
-
-  margin-top:1rem;
-}
+section{ margin-bottom:5.5rem; scroll-margin-top:60px; }
 
 
 /* ==========================================================
@@ -656,115 +581,65 @@ section > p{
 ========================================================== */
 
 .profile-grid{
-
   display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
+  grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));
   gap:1rem;
-
   margin-top:1.5rem;
 }
 
-
 .profile-card{
-
   position:relative;
-
-  background:linear-gradient(
-    145deg,
-    var(--surface),
-    rgba(14,19,26,.65)
-  );
-
+  background:linear-gradient(145deg,var(--surface),rgba(14,19,26,.65));
   border:1px solid var(--border);
-
+  border-top:2px solid var(--card-accent,var(--border));
   border-radius:9px;
-
   padding:1.2rem;
-
   overflow:hidden;
-
-  transition:
-    transform .3s ease,
-    border-color .3s ease;
+  transition:transform .3s ease,border-color .3s ease;
 }
-
 
 .profile-card::before{
-
   content:"";
-
   position:absolute;
-
   width:100px;
   height:100px;
-
   top:-60px;
   right:-60px;
-
   border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(88,166,255,.13),
-      transparent 70%
-    );
+  background:radial-gradient(circle,color-mix(in srgb,var(--card-accent,var(--accent)) 35%,transparent),transparent 70%);
 }
 
-
 .profile-card:hover{
-
   transform:translateY(-4px);
-
   border-color:var(--border-light);
 }
 
+.profile-card.identity{ --card-accent:var(--sec-identity); }
+.profile-card.cloud{ --card-accent:var(--sec-cloud); }
+.profile-card.ops{ --card-accent:var(--sec-ops); }
+.profile-card.support{ --card-accent:var(--sec-verified); }
 
 .card-icon{
-
   position:relative;
-
   width:1.6rem;
-
   height:1.6rem;
-
   margin-bottom:.7rem;
-
-  color:var(--accent-soft);
+  color:var(--card-accent,var(--accent-soft));
 }
 
-
-.card-icon svg{
-
-  width:100%;
-
-  height:100%;
-}
-
+.card-icon svg{ width:100%; height:100%; }
 
 .profile-card strong{
-
   display:block;
-
   font-family:var(--mono);
-
-  color:var(--accent-soft);
-
+  color:var(--card-accent,var(--accent-soft));
   font-size:.8rem;
-
   margin-bottom:.35rem;
 }
 
-
 .profile-card span{
-
   display:block;
-
   color:var(--text-dim);
-
   font-size:.87rem;
 }
 
@@ -773,94 +648,47 @@ section > p{
    EXPERIENCE
 ========================================================== */
 
-.experience-list{
-
-  list-style:none;
-}
-
+.experience-list{ list-style:none; }
 
 .experience-item{
-
   position:relative;
-
   padding:1.7rem 0;
-
   border-top:1px solid var(--border);
 }
 
-
 .experience-header{
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:flex-start;
-
   gap:1rem;
-
   margin-bottom:.45rem;
 }
 
-
-.experience-header h3{
-
-  font-size:1.02rem;
-
-  font-weight:600;
-}
-
+.experience-header h3{ font-size:1.02rem; font-weight:600; }
 
 .experience-company{
-
   color:var(--accent-soft);
-
   font-family:var(--mono);
-
   font-size:.78rem;
-
   margin-top:.15rem;
 }
 
-
 .experience-date{
-
   color:var(--text-dim);
-
   font-family:var(--mono);
-
   font-size:.72rem;
-
   text-align:right;
-
   white-space:nowrap;
 }
 
-
 .experience-location{
-
   color:var(--text-dim);
-
   font-size:.8rem;
-
   margin-bottom:.8rem;
 }
 
-
-.experience-item ul{
-
-  padding-left:1.15rem;
-
-  color:var(--text-dim);
-}
-
-
-.experience-item li{
-
-  margin-bottom:.4rem;
-
-  font-size:.88rem;
-}
+.experience-item ul{ padding-left:1.15rem; color:var(--text-dim); }
+.experience-item li{ margin-bottom:.4rem; font-size:.88rem; }
 
 
 /* ==========================================================
@@ -868,211 +696,91 @@ section > p{
 ========================================================== */
 
 .projects-intro{
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:flex-end;
-
   gap:1rem;
-
   flex-wrap:wrap;
-
   margin-bottom:1.5rem;
 }
 
-
 .projects-count{
-
   font-family:var(--mono);
-
   font-size:.72rem;
-
   color:var(--text-dim);
-
   white-space:nowrap;
 }
 
-
-.project-list{
-
-  list-style:none;
-
-  display:grid;
-
-  gap:1rem;
-}
-
+.project-list{ list-style:none; display:grid; gap:1rem; }
 
 .project-card{
-
   position:relative;
-
   background:var(--surface);
-
   border:1px solid var(--border);
-
   border-radius:9px;
-
   padding:1.3rem 1.4rem;
-
-  transition:
-    border-color .25s ease,
-    transform .25s ease;
+  transition:border-color .25s ease,transform .25s ease;
 }
 
+.project-card:hover{ border-color:var(--border-light); transform:translateY(-3px); }
 
-.project-card:hover{
-
-  border-color:var(--border-light);
-
-  transform:translateY(-3px);
-}
-
-
-.project-card.empty{
-
-  border-style:dashed;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:.9rem;
-}
-
+.project-card.empty{ border-style:dashed; display:flex; align-items:center; gap:.9rem; }
 
 .project-status{
-
   font-family:var(--mono);
-
   font-size:.65rem;
-
   padding:.25rem .55rem;
-
   border-radius:4px;
-
   white-space:nowrap;
 }
 
-
-.project-status.planned{
-  color:var(--text-dim);
-  border:1px solid var(--border-light);
-}
-
-
-.project-status.building{
-  color:var(--warning);
-  border:1px solid rgba(210,153,34,.35);
-}
-
-
-.project-status.shipped{
-  color:var(--green);
-  border:1px solid rgba(126,231,135,.35);
-}
-
+.project-status.planned{ color:var(--text-dim); border:1px solid var(--border-light); }
+.project-status.building{ color:var(--sec-ops); border:1px solid rgba(210,153,34,.35); }
+.project-status.shipped{ color:var(--sec-verified); border:1px solid rgba(63,185,80,.35); }
 
 .project-header{
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:flex-start;
-
   gap:1rem;
-
   margin-bottom:.5rem;
 }
 
+.project-header h3{ font-size:1rem; font-weight:600; }
 
-.project-header h3{
+.project-card p{ color:var(--text-dim); font-size:.87rem; max-width:42rem; margin-bottom:.8rem; }
 
-  font-size:1rem;
+.project-meta{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.8rem; }
 
-  font-weight:600;
-}
-
-
-.project-card p{
-
-  color:var(--text-dim);
-
-  font-size:.87rem;
-
-  max-width:42rem;
-
-  margin-bottom:.8rem;
-}
-
-
-.project-meta{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:.5rem;
-
-  margin-bottom:.8rem;
-}
-
-
-.project-tag{
-
+/* Semantic tag color-coding — every tag's color tells you which
+   part of the stack it belongs to, consistently across projects,
+   articles and the tech-stack list. */
+.project-tag,
+.article-tag{
   font-family:var(--mono);
-
   font-size:.65rem;
-
   padding:.3rem .55rem;
-
   border:1px solid var(--border);
-
   border-radius:4px;
-
   color:var(--text-dim);
 }
 
+.tag-identity{ color:var(--sec-identity); border-color:rgba(88,166,255,.35); }
+.tag-cloud{ color:var(--sec-cloud); border-color:rgba(77,212,208,.35); }
+.tag-ops{ color:var(--sec-ops); border-color:rgba(210,153,34,.35); }
+.tag-study{ color:var(--sec-study); border-color:rgba(185,140,255,.35); }
 
-.project-links{
-
-  display:flex;
-
-  gap:1rem;
-
-  font-family:var(--mono);
-
-  font-size:.75rem;
-}
-
-
-.project-links a{
-
-  text-decoration:none;
-}
-
+.project-links{ display:flex; gap:1rem; font-family:var(--mono); font-size:.75rem; }
+.project-links a{ text-decoration:none; }
 
 .project-link-pending{
-
   font-family:var(--mono);
-
   font-size:.75rem;
-
   color:var(--text-dim);
-
   font-style:italic;
 }
 
-
-.project-card.empty p{
-
-  margin-bottom:0;
-
-  font-size:.85rem;
-}
+.project-card.empty p{ margin-bottom:0; font-size:.85rem; }
 
 
 /* ==========================================================
@@ -1080,62 +788,38 @@ section > p{
 ========================================================== */
 
 .stack-grid{
-
   display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
+  grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));
   gap:1.4rem;
-
   border-top:1px solid var(--border);
-
   padding-top:1.5rem;
 }
 
+.stack-col{ position:relative; border-top:2px solid var(--col-accent); padding-top:.9rem; }
 
-.stack-col{
-
-  position:relative;
-}
-
+.stack-col.identity{ --col-accent:var(--sec-identity); }
+.stack-col.cloud{ --col-accent:var(--sec-cloud); }
+.stack-col.ops{ --col-accent:var(--sec-ops); }
+.stack-col.study{ --col-accent:var(--sec-study); }
 
 .stack-col h3{
-
   font-family:var(--mono);
-
   font-size:.8rem;
-
   font-weight:500;
-
-  color:var(--green);
-
+  color:var(--col-accent);
   margin-bottom:.8rem;
 }
 
-
-.stack-col ul{
-
-  list-style:none;
-}
-
+.stack-col ul{ list-style:none; }
 
 .stack-col li{
-
   font-size:.88rem;
-
   color:var(--text-dim);
-
   padding:.35rem 0;
-
   border-bottom:1px dashed var(--border);
 }
 
-
-.stack-col li:last-child{
-
-  border-bottom:none;
-}
+.stack-col li:last-child{ border-bottom:none; }
 
 
 /* ==========================================================
@@ -1143,122 +827,60 @@ section > p{
 ========================================================== */
 
 .article-list{
-
   display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
+  grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));
   gap:1rem;
-
   list-style:none;
 }
 
-
 .article{
-
   position:relative;
-
   display:block;
-
   min-height:155px;
-
   padding:1.25rem;
-
   background:var(--surface);
-
   border:1px solid var(--border);
-
   border-radius:9px;
-
   text-decoration:none;
-
   overflow:hidden;
-
-  transition:
-    transform .35s cubic-bezier(.16,1,.3,1),
-    border-color .3s ease,
-    background .3s ease;
+  transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .3s ease,background .3s ease;
 }
 
-
 .article::before{
-
   content:"";
-
   position:absolute;
-
   inset:-100%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(88,166,255,.08),
-      transparent 45%
-    );
-
+  background:radial-gradient(circle,rgba(88,166,255,.08),transparent 45%);
   opacity:0;
-
   transition:opacity .4s ease;
 }
 
-
 .article:hover{
-
-  transform:
-    translateY(-6px)
-    scale(1.01);
-
+  transform:translateY(-6px) scale(1.01);
   border-color:var(--accent);
-
   background:var(--surface-alt);
 }
 
-
-.article:hover::before{
-
-  opacity:1;
-}
-
+.article:hover::before{ opacity:1; }
 
 .article small{
-
   position:relative;
-
   display:block;
-
   font-family:var(--mono);
-
   font-size:.68rem;
-
   color:var(--accent);
-
   margin-bottom:.65rem;
 }
 
-
 .article strong{
-
   position:relative;
-
   display:block;
-
   color:var(--text);
-
   font-size:.98rem;
-
   margin-bottom:.45rem;
 }
 
-
-.article span{
-
-  position:relative;
-
-  color:var(--text-dim);
-
-  font-size:.82rem;
-}
+.article span{ position:relative; color:var(--text-dim); font-size:.82rem; }
 
 
 /* ==========================================================
@@ -1266,278 +888,99 @@ section > p{
 ========================================================== */
 
 .article-section{
-
   padding:2rem;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(14,19,26,.96),
-      rgba(12,17,23,.82)
-    );
-
+  background:linear-gradient(145deg,rgba(14,19,26,.96),rgba(12,17,23,.82));
   border:1px solid var(--border);
-
   border-radius:10px;
-
   margin-top:1.5rem;
-
   position:relative;
-
   overflow:hidden;
 }
 
-
 .article-section::after{
-
   content:"";
-
   position:absolute;
-
   width:250px;
   height:250px;
-
   right:-130px;
   bottom:-130px;
-
   border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(88,166,255,.07),
-      transparent 70%
-    );
+  background:radial-gradient(circle,rgba(88,166,255,.07),transparent 70%);
 }
 
+.article-section h3{ font-size:1rem; margin-bottom:.6rem; position:relative; z-index:1; }
 
-.article-section h3{
+.article-section p{ color:var(--text-dim); font-size:.9rem; max-width:43rem; position:relative; z-index:1; }
+.article-section p + p{ margin-top:.8rem; }
 
-  font-size:1rem;
-
-  margin-bottom:.6rem;
-
-  position:relative;
-
-  z-index:1;
-}
-
-
-.article-section p{
-
-  color:var(--text-dim);
-
-  font-size:.9rem;
-
-  max-width:43rem;
-
-  position:relative;
-
-  z-index:1;
-}
-
-
-.article-section p + p{
-
-  margin-top:.8rem;
-}
-
-
-.article-meta{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:.5rem;
-
-  margin-top:1rem;
-}
-
-
-.article-tag{
-
-  font-family:var(--mono);
-
-  font-size:.65rem;
-
-  padding:.3rem .55rem;
-
-  border:1px solid var(--border);
-
-  border-radius:4px;
-
-  color:var(--text-dim);
-}
+.article-meta{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
 
 
 /* ==========================================================
    CAREER TIMELINE
 ========================================================== */
 
-.timeline{
-
-  list-style:none;
-
-  position:relative;
-
-  padding-left:2.5rem;
-}
-
+.timeline{ list-style:none; position:relative; padding-left:2.5rem; }
 
 .timeline::before{
-
   content:"";
-
   position:absolute;
-
   left:.8rem;
-
   top:.4rem;
-
   bottom:.4rem;
-
   width:1px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      var(--accent),
-      var(--border),
-      transparent
-    );
+  background:linear-gradient(to bottom,var(--accent),var(--border),transparent);
 }
 
-
-.timeline li{
-
-  position:relative;
-
-  padding-bottom:2rem;
-}
-
-
-.timeline li:last-child{
-
-  padding-bottom:0;
-}
-
+.timeline li{ position:relative; padding-bottom:2rem; }
+.timeline li:last-child{ padding-bottom:0; }
 
 .timeline .step{
-
   position:absolute;
-
   left:-2.5rem;
-
   top:0;
-
   width:1.65rem;
-
   height:1.65rem;
-
   border-radius:50%;
-
   background:var(--surface);
-
   border:1px solid var(--border-light);
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   font-family:var(--mono);
-
   font-size:.62rem;
-
   color:var(--accent-soft);
-
-  box-shadow:
-    0 0 0 5px var(--bg);
+  box-shadow:0 0 0 5px var(--bg);
 }
 
-
-.timeline h3{
-
-  font-size:.98rem;
-
-  font-weight:600;
-
-  margin-bottom:.3rem;
-}
-
-
-.timeline p{
-
-  color:var(--text-dim);
-
-  font-size:.87rem;
-
-  max-width:43rem;
-}
+.timeline h3{ font-size:.98rem; font-weight:600; margin-bottom:.3rem; }
+.timeline p{ color:var(--text-dim); font-size:.87rem; max-width:43rem; }
 
 
 /* ==========================================================
    EDUCATION / CERTIFICATIONS
 ========================================================== */
 
-.simple-list{
-
-  list-style:none;
-
-  border-top:1px solid var(--border);
-}
-
+.simple-list{ list-style:none; border-top:1px solid var(--border); }
 
 .simple-list li{
-
   padding:1rem 0;
-
   border-bottom:1px solid var(--border);
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:center;
-
   gap:1rem;
 }
 
+.simple-list strong{ display:block; font-size:.92rem; font-weight:600; }
 
-.simple-list strong{
-
-  display:block;
-
-  font-size:.92rem;
-
-  font-weight:600;
-}
-
-
-.simple-list span{
-
-  display:block;
-
-  color:var(--text-dim);
-
-  font-size:.83rem;
-
-  margin-top:.2rem;
-}
-
+.simple-list span{ display:block; color:var(--text-dim); font-size:.83rem; margin-top:.2rem; }
 
 .cert-status{
-
   font-family:var(--mono);
-
   font-size:.65rem;
-
   padding:.25rem .55rem;
-
   border-radius:4px;
-
   white-space:nowrap;
 }
 
@@ -1546,188 +989,77 @@ section > p{
    CERTIFICATION JOURNEY (STORYBOOK CHAPTERS)
 ========================================================== */
 
-.journey-intro{
+.journey-intro{ color:var(--text-dim); max-width:44rem; margin-bottom:1.8rem; }
 
-  color:var(--text-dim);
-
-  max-width:44rem;
-
-  margin-bottom:1.8rem;
-}
-
-
-.chapter-list{
-
-  list-style:none;
-
-  display:grid;
-
-  gap:1rem;
-}
-
+.chapter-list{ list-style:none; display:grid; gap:1rem; }
 
 .chapter-card{
-
   position:relative;
-
   display:grid;
-
   grid-template-columns:2.6rem 1fr;
-
   gap:1rem;
-
   background:var(--surface);
-
   border:1px solid var(--border);
-
   border-radius:9px;
-
   padding:1.3rem 1.4rem;
-
-  transition:
-    border-color .25s ease,
-    transform .25s ease;
+  transition:border-color .25s ease,transform .25s ease;
 }
 
-
-.chapter-card:hover{
-
-  border-color:var(--border-light);
-
-  transform:translateY(-3px);
-}
-
+.chapter-card:hover{ border-color:var(--border-light); transform:translateY(-3px); }
 
 .chapter-icon{
-
   width:2.6rem;
-
   height:2.6rem;
-
   border-radius:50%;
-
   background:var(--surface-alt);
-
   border:1px solid var(--border-light);
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
-  color:var(--accent-soft);
+  color:var(--sec-study);
 }
 
-
-.chapter-icon svg{
-
-  width:1.3rem;
-
-  height:1.3rem;
-}
-
+.chapter-icon svg{ width:1.3rem; height:1.3rem; }
 
 .chapter-header{
-
   display:flex;
-
   justify-content:space-between;
-
   align-items:flex-start;
-
   gap:1rem;
-
   margin-bottom:.4rem;
 }
 
-
 .chapter-number{
-
   display:block;
-
   font-family:var(--mono);
-
   font-size:.68rem;
-
-  color:var(--accent);
-
+  color:var(--sec-study);
   margin-bottom:.25rem;
 }
 
+.chapter-card h3{ font-size:1rem; font-weight:600; }
+.chapter-card p{ color:var(--text-dim); font-size:.88rem; max-width:42rem; }
 
-.chapter-card h3{
-
-  font-size:1rem;
-
-  font-weight:600;
-}
-
-
-.chapter-card p{
-
-  color:var(--text-dim);
-
-  font-size:.88rem;
-
-  max-width:42rem;
-}
-
-
-.chapter-card.empty{
-
-  border-style:dashed;
-
-  align-items:center;
-}
-
-
-.chapter-card.empty .chapter-icon{
-
-  border-style:dashed;
-}
-
-
-.chapter-card.empty p{
-
-  font-size:.85rem;
-
-  margin-top:.2rem;
-}
+.chapter-card.empty{ border-style:dashed; align-items:center; }
+.chapter-card.empty .chapter-icon{ border-style:dashed; }
+.chapter-card.empty p{ font-size:.85rem; margin-top:.2rem; }
 
 
 /* ==========================================================
    LANGUAGES
 ========================================================== */
 
-.languages{
-
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:.6rem;
-}
-
+.languages{ display:flex; flex-wrap:wrap; gap:.6rem; }
 
 .language{
-
   border:1px solid var(--border);
-
   background:var(--surface);
-
   border-radius:6px;
-
   padding:.6rem .8rem;
-
   font-size:.8rem;
 }
 
-
-.language span{
-
-  color:var(--text-dim);
-}
+.language span{ color:var(--text-dim); }
 
 
 /* ==========================================================
@@ -1735,180 +1067,331 @@ section > p{
 ========================================================== */
 
 .contact-grid{
-
   display:grid;
-
-  grid-template-columns:
-    repeat(auto-fit,minmax(220px,1fr));
-
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:1rem;
 }
 
-
 .contact-item{
-
   background:var(--surface);
-
   border:1px solid var(--border);
-
   border-radius:8px;
-
   padding:1rem;
-
-  transition:
-    border-color .25s ease,
-    transform .25s ease;
+  transition:border-color .25s ease,transform .25s ease;
 }
 
-
-.contact-item:hover{
-
-  border-color:var(--accent);
-
-  transform:translateY(-3px);
-}
-
+.contact-item:hover{ border-color:var(--accent); transform:translateY(-3px); }
 
 .contact-item small{
-
   display:block;
-
   color:var(--text-dim);
-
   font-family:var(--mono);
-
   font-size:.65rem;
-
   margin-bottom:.3rem;
 }
 
-
-.contact-item a{
-
-  text-decoration:none;
-
-  font-size:.84rem;
-}
+.contact-item a{ text-decoration:none; font-size:.84rem; }
 
 
 /* ==========================================================
    FOOTER
 ========================================================== */
 
-footer{
+footer{ border-top:1px solid var(--border); padding-top:2.5rem; }
 
-  border-top:1px solid var(--border);
+footer .cta{ font-size:1.05rem; margin-bottom:1.4rem; max-width:42rem; }
 
-  padding-top:2.5rem;
+footer .fine{ color:var(--text-dim); font-size:.75rem; margin-top:2rem; }
+
+
+/* ==========================================================
+   RESPONSIVE — every device, not just a couple of breakpoints.
+   Layout above is already fluid (clamp() type/spacing, auto-fit
+   grids); these breakpoints handle the structural reflows that
+   fluid sizing alone can't: stacking headers, orientation of
+   flex rows, and touch target sizing on coarse pointers.
+========================================================== */
+
+/* Large tablets / small laptops */
+@media(max-width:1024px){
+  .page{ max-width:100%; }
 }
 
-
-footer .cta{
-
-  font-size:1.05rem;
-
-  margin-bottom:1.4rem;
-
-  max-width:42rem;
+/* Tablets */
+@media(max-width:900px){
+  .terminal{ margin-bottom:2rem; }
+  .stack-grid{ gap:1.1rem; }
 }
 
+/* Phones */
+@media(max-width:650px){
 
-footer .fine{
+  .experience-header,
+  .project-header{ flex-direction:column; gap:.25rem; }
 
-  color:var(--text-dim);
+  .experience-date{ text-align:left; }
 
-  font-size:.75rem;
+  nav.sections{ gap:.8rem 1rem; }
 
-  margin-top:2rem;
+  .article-section{ padding:1.25rem; }
+
+  .projects-intro{ align-items:flex-start; }
+
+  .simple-list li{ flex-direction:column; align-items:flex-start; gap:.3rem; }
+
+  .chapter-card{ grid-template-columns:2.1rem 1fr; gap:.8rem; }
+  .chapter-header{ flex-direction:column; gap:.25rem; }
+  .chapter-icon{ width:2.1rem; height:2.1rem; }
+  .chapter-icon svg{ width:1.05rem; height:1.05rem; }
+
+  .hero-graph{ height:360px; }
+
+  .terminal-status span:not(.led){ display:none; }
+}
+
+/* Small phones and foldables */
+@media(max-width:380px){
+  .terminal-bar{ flex-wrap:wrap; row-gap:.3rem; }
+  .terminal-status{ margin-left:0; order:1; flex-basis:100%; }
+  .dot{ width:.5rem; height:.5rem; }
+  .chapter-card{ grid-template-columns:1fr; }
+  .chapter-icon{ width:1.8rem; height:1.8rem; }
+}
+
+/* Touch devices — comfortable tap targets regardless of screen size */
+@media(hover:none), (pointer:coarse){
+  nav.links a,
+  nav.sections a,
+  .floating-nav-links a,
+  .article,
+  .contact-item{
+    min-height:44px;
+    display:flex;
+    align-items:center;
+  }
+  nav.sections a, .floating-nav-links a{ display:inline-flex; }
+}
+
+/* Very large / ultrawide screens — content stays readable,
+   the space field simply has more room to breathe */
+@media(min-width:1600px){
+  .page{ max-width:920px; }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-graph{ opacity:.22; }
 }
 
 
 /* ==========================================================
-   MOBILE
+   PREMIUM POLISH LAYER
+   Scroll progress, floating scrollspy nav, film-grain depth,
+   cursor-aware glow and staggered grid choreography — the
+   finishing details that separate a template from a
+   hand-tuned build. Nothing here changes the visual language;
+   it sharpens the execution of what's already there.
 ========================================================== */
 
+/* Scroll progress */
+
+.scroll-progress{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:2px;
+  background:var(--sec-verified);
+  transform-origin:left center;
+  transform:scaleX(0);
+  z-index:60;
+  box-shadow:0 0 8px rgba(63,185,80,.5);
+}
+
+/* Film grain depth layer */
+
+.grain{
+  position:fixed;
+  inset:-50%;
+  width:200%;
+  height:200%;
+  pointer-events:none;
+  z-index:1;
+  opacity:.035;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Cursor-aware ambient glow — desktop, fine-pointer only */
+
+.cursor-glow{
+  position:fixed;
+  top:0; left:0;
+  width:560px;
+  height:560px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(88,166,255,.10),transparent 68%);
+  transform:translate(var(--x,-9999px),var(--y,-9999px)) translate(-50%,-50%);
+  pointer-events:none;
+  z-index:1;
+  opacity:0;
+  transition:opacity .4s ease;
+}
+
+.cursor-glow.active{ opacity:1; }
+
+@media(hover:none), (pointer:coarse){
+  .cursor-glow{ display:none; }
+}
+
+/* Floating scrollspy nav */
+
+.floating-nav{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1.5rem;
+  padding:.85rem 1.5rem;
+  background:rgba(8,11,16,.68);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid transparent;
+  transform:translateY(-100%);
+  opacity:0;
+  transition:transform .45s cubic-bezier(.16,1,.3,1),
+             opacity .45s cubic-bezier(.16,1,.3,1),
+             border-color .3s ease;
+}
+
+.floating-nav.visible{
+  transform:translateY(0);
+  opacity:1;
+  border-bottom-color:var(--border);
+}
+
+.floating-nav-brand{
+  font-family:var(--mono);
+  font-size:.82rem;
+  color:var(--text);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:.45rem;
+  white-space:nowrap;
+}
+
+.floating-nav-brand .led{
+  width:.4rem;
+  height:.4rem;
+  border-radius:50%;
+  background:var(--sec-verified);
+  box-shadow:0 0 6px var(--sec-verified);
+}
+
+.floating-nav-links{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:1.1rem;
+  overflow-x:auto;
+  scrollbar-width:none;
+  max-width:100%;
+}
+
+.floating-nav-links::-webkit-scrollbar{ display:none; }
+
+.floating-nav-links a{
+  font-size:.78rem;
+  color:var(--text-dim);
+  text-decoration:none;
+  white-space:nowrap;
+  position:relative;
+  padding-bottom:.2rem;
+  transition:color .2s ease;
+}
+
+.floating-nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:0;
+  width:0;
+  height:1px;
+  background:var(--accent);
+  transition:width .25s ease;
+}
+
+.floating-nav-links a:hover{ color:var(--accent-soft); }
+
+.floating-nav-links a.active{ color:var(--accent-soft); }
+.floating-nav-links a.active::after{ width:100%; }
+
 @media(max-width:650px){
+  .floating-nav-brand span.label{ display:none; }
+}
 
-  .page{
+/* Staggered grid choreography — children of a revealed section
+   animate in sequence rather than all at once. Delays are set
+   per nth-child so each grid staggers independently. */
 
-    padding:
-      3rem
-      1.2rem
-      3rem;
+.profile-card,
+.project-list > .project-card,
+.stack-col,
+.chapter-list > .chapter-card,
+.article-list > li,
+.contact-item,
+.simple-list > li{
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),
+             transform .6s cubic-bezier(.16,1,.3,1),
+             border-color .25s ease,
+             box-shadow .25s ease;
+}
+
+.reveal.visible .profile-card,
+.reveal.visible .project-list > .project-card,
+.reveal.visible .stack-col,
+.reveal.visible .chapter-list > .chapter-card,
+.reveal.visible .article-list > li,
+.reveal.visible .contact-item,
+.reveal.visible .simple-list > li{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.profile-card:nth-child(1),.project-list > .project-card:nth-child(1),.stack-col:nth-child(1),.chapter-list > .chapter-card:nth-child(1),.article-list > li:nth-child(1),.contact-item:nth-child(1),.simple-list > li:nth-child(1){ transition-delay:.02s; }
+.profile-card:nth-child(2),.project-list > .project-card:nth-child(2),.stack-col:nth-child(2),.chapter-list > .chapter-card:nth-child(2),.article-list > li:nth-child(2),.contact-item:nth-child(2),.simple-list > li:nth-child(2){ transition-delay:.09s; }
+.profile-card:nth-child(3),.project-list > .project-card:nth-child(3),.stack-col:nth-child(3),.chapter-list > .chapter-card:nth-child(3),.article-list > li:nth-child(3),.contact-item:nth-child(3),.simple-list > li:nth-child(3){ transition-delay:.16s; }
+.profile-card:nth-child(4),.project-list > .project-card:nth-child(4),.stack-col:nth-child(4),.chapter-list > .chapter-card:nth-child(4),.article-list > li:nth-child(4),.contact-item:nth-child(4),.simple-list > li:nth-child(4){ transition-delay:.23s; }
+.project-list > .project-card:nth-child(5),.chapter-list > .chapter-card:nth-child(5),.article-list > li:nth-child(5),.simple-list > li:nth-child(5){ transition-delay:.30s; }
+.project-list > .project-card:nth-child(6),.chapter-list > .chapter-card:nth-child(6),.simple-list > li:nth-child(6){ transition-delay:.37s; }
+.simple-list > li:nth-child(7){ transition-delay:.44s; }
+
+/* Elevated hover states — layered shadow instead of a flat border
+   flip, consistent easing curve across every interactive card */
+
+.profile-card:hover,
+.project-card:hover,
+.chapter-card:hover,
+.contact-item:hover{
+  box-shadow:0 20px 45px -25px rgba(0,0,0,.65);
+  transition-timing-function:cubic-bezier(.16,1,.3,1);
+}
+
+@media(prefers-reduced-motion:reduce){
+  .profile-card,
+  .project-list > .project-card,
+  .stack-col,
+  .chapter-list > .chapter-card,
+  .article-list > li,
+  .contact-item,
+  .simple-list > li{
+    opacity:1;
+    transform:none;
+    transition:none !important;
   }
-
-
-  .hero h1{
-
-    font-size:1.75rem;
-  }
-
-
-  .profile-grid,
-  .stack-grid,
-  .article-list,
-  .contact-grid{
-
-    grid-template-columns:1fr;
-  }
-
-
-  .experience-header,
-  .project-header{
-
-    flex-direction:column;
-
-    gap:.25rem;
-  }
-
-
-  .experience-date{
-
-    text-align:left;
-  }
-
-
-  nav.sections{
-
-    gap:.8rem 1rem;
-  }
-
-
-  .article-section{
-
-    padding:1.25rem;
-  }
-
-
-  .projects-intro{
-
-    align-items:flex-start;
-  }
-
-
-  .simple-list li{
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-    gap:.3rem;
-  }
-
-
-  .chapter-card{
-
-    grid-template-columns:1fr;
-  }
-
-
-  .chapter-header{
-
-    flex-direction:column;
-
-    gap:.25rem;
-  }
-
+  .cursor-glow{ display:none; }
+  .floating-nav{ transition:none; }
 }
 
 </style>
@@ -1916,6 +1399,29 @@ footer .fine{
 
 
 <body>
+
+<div class="space-field" aria-hidden="true"></div>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<nav class="floating-nav" id="floatingNav">
+  <a href="#about" class="floating-nav-brand">
+    <span class="led"></span>
+    <span class="label">alex@martinez</span>
+  </a>
+  <div class="floating-nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#stack">Stack</a>
+    <a href="#articles">Knowledge</a>
+    <a href="#approach">Approach</a>
+    <a href="#education">Education</a>
+    <a href="#journey">Journey</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
 
 
 <div class="page">
@@ -1927,6 +1433,9 @@ footer .fine{
 
 <header class="hero">
 
+  <canvas class="hero-graph" id="heroGraph" aria-hidden="true"></canvas>
+  <span class="hero-graph-caption">continuous verification · zero trust</span>
+
   <div class="terminal">
 
     <div class="terminal-bar">
@@ -1935,8 +1444,11 @@ footer .fine{
       <span class="dot yellow"></span>
       <span class="dot green"></span>
 
-      <span class="terminal-title">
-        alex@martinez:~$
+      <span class="terminal-title">alex@martinez:~$</span>
+
+      <span class="terminal-status">
+        <span class="led"></span>
+        session verified
       </span>
 
     </div>
@@ -1944,108 +1456,50 @@ footer .fine{
 
     <div class="terminal-body">
 
-      <p>
-        <span class="prompt">$</span> whoami
-      </p>
+      <p><span class="prompt">$</span> whoami</p>
+      <p class="output" id="line-name"></p>
 
-      <p
-        class="output"
-        id="line-name">
-      </p>
+      <p><span class="prompt">$</span> role</p>
+      <p class="output" id="line-role"></p>
 
+      <p><span class="prompt">$</span> focus</p>
+      <p class="output" id="line-focus"></p>
 
-      <p>
-        <span class="prompt">$</span> role
-      </p>
-
-      <p
-        class="output"
-        id="line-role">
-      </p>
-
-
-      <p>
-        <span class="prompt">$</span> focus
-      </p>
-
-      <p
-        class="output"
-        id="line-focus">
-      </p>
-
-
-      <p>
-        <span class="prompt">$</span>
-        <span class="cursor">▌</span>
-      </p>
+      <p><span class="prompt">$</span> <span class="cursor">▌</span></p>
 
     </div>
 
   </div>
 
 
-  <h1>
-    Alexander Pineda Martinez
-  </h1>
-
+  <h1>Alexander Pineda Martinez</h1>
 
   <p class="tagline">
-
     Service Assurance Engineer with hands-on enterprise experience in
-    identity and access management, building toward Identity &amp;
-    Access Security and Cloud Security, on top of three years running
-    IAM, endpoint identity and critical incident response inside
-    regulated, global environments.
-
+    <strong>identity and access management</strong>, building toward
+    Identity &amp; Access Security and Cloud Security, on top of three
+    years running IAM, endpoint identity and critical incident
+    response inside regulated, global environments.
   </p>
 
 
   <nav class="links">
-
-    <a
-      href="https://github.com/alexmartineztech"
-      target="_blank"
-      rel="noopener">
-      GitHub
-    </a>
-
-    <a
-      href="https://www.linkedin.com/in/alexmartineztech"
-      target="_blank"
-      rel="noopener">
-      LinkedIn
-    </a>
-
-    <a
-      href="https://www.instagram.com/alexmartinez.tech"
-      target="_blank"
-      rel="noopener">
-      Instagram
-    </a>
-
+    <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://www.linkedin.com/in/alexmartineztech" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://www.instagram.com/alexmartinez.tech" target="_blank" rel="noopener noreferrer">Instagram</a>
   </nav>
 
 
   <nav class="sections">
-
     <a href="#about">About</a>
-
     <a href="#experience">Experience</a>
-
     <a href="#projects">Projects</a>
-
     <a href="#stack">Stack</a>
-
     <a href="#articles">Knowledge</a>
-
     <a href="#approach">Approach</a>
-
     <a href="#education">Education</a>
-
     <a href="#journey">Journey</a>
-
     <a href="#contact">Contact</a>
-
   </nav>
 
 </header>
@@ -2059,132 +1513,84 @@ footer .fine{
      ABOUT
 ========================================================== -->
 
-<section
-  class="about reveal"
-  id="about">
+<section class="about reveal" id="about">
 
-  <h2>
-    Professional profile
-  </h2>
-
+  <h2 class="decrypt">Professional profile</h2>
 
   <p>
-
     I work at the intersection of identity, enterprise IT and service
     assurance. My experience has been built inside international,
     regulated environments where access control, availability and
     incident discipline are everyday requirements, not abstractions.
-
   </p>
 
-
   <p>
-
     My current role focuses on service assurance and critical
     operations: 24/7 monitoring, L1/L2 incident management, major
     incident coordination, root cause analysis and continuous
     improvement, under compliance frameworks including DORA, FCA
     and PRA.
-
   </p>
 
-
   <p>
-
     Previously, I spent three years at a global enterprise supporting
     Microsoft identity and endpoint technologies at Tier 2 level, with
     direct, hands-on responsibility for Entra ID, Intune, Autopilot,
     Active Directory, IAM and Secure Access Workstations for 500+
     users.
-
   </p>
 
-
   <p>
-
     I am building on that operational foundation toward a
     specialization in Identity &amp; Access Security and Cloud
     Security, through structured certification (SC-900, AZ-500,
     SC-300) and hands-on lab projects documented in the section below.
-
   </p>
 
-
   <p>
-
     I follow recognized voices in the security community, including
     Chema Alonso's work on identity, authentication and digital risk,
     to help shape how I think about the field. I do not currently hold
     offensive-security or penetration-testing skills; my background is
     in identity administration and enterprise operations, and every
     specialization claimed on this page is scoped to that experience.
-
   </p>
 
 
   <div class="profile-grid">
 
-
-    <div class="profile-card">
-
+    <div class="profile-card identity">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 3l7 3v5c0 4.6-2.9 8.4-7 10-4.1-1.6-7-5.4-7-10V6l7-3z"/>
           <path d="M9 12l2 2 4-4"/>
         </svg>
       </div>
-
-      <strong>
-        IDENTITY &amp; ACCESS
-      </strong>
-
-      <span>
-        Entra ID · IAM · Conditional Access · MFA · Zero Trust Fundamentals
-      </span>
-
+      <strong>IDENTITY &amp; ACCESS</strong>
+      <span>Entra ID · IAM · Conditional Access · MFA · Zero Trust Fundamentals</span>
     </div>
 
-
-    <div class="profile-card">
-
+    <div class="profile-card cloud">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M7 18a4.5 4.5 0 0 1-.4-8.98A5.5 5.5 0 0 1 17.3 8.1 4 4 0 0 1 17 18H7z"/>
         </svg>
       </div>
-
-      <strong>
-        CLOUD
-      </strong>
-
-      <span>
-        Microsoft Azure · Cloud Operations · Hybrid Environments
-      </span>
-
+      <strong>CLOUD</strong>
+      <span>Microsoft Azure · Cloud Operations · Hybrid Environments</span>
     </div>
 
-
-    <div class="profile-card">
-
+    <div class="profile-card ops">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 12h4l2 7 4-14 2 7h6"/>
         </svg>
       </div>
-
-      <strong>
-        OPERATIONS
-      </strong>
-
-      <span>
-        24/7 Service Assurance · Critical Incident Management · SLA
-      </span>
-
+      <strong>OPERATIONS</strong>
+      <span>24/7 Service Assurance · Critical Incident Management · SLA</span>
     </div>
 
-
-    <div class="profile-card">
-
+    <div class="profile-card support">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M4 13v-1a8 8 0 0 1 16 0v1"/>
@@ -2193,15 +1599,8 @@ footer .fine{
           <path d="M20 19v1a3 3 0 0 1-3 3h-3"/>
         </svg>
       </div>
-
-      <strong>
-        ENTERPRISE SUPPORT
-      </strong>
-
-      <span>
-        Microsoft 365 · Intune · Autopilot · VIP Support · ServiceNow
-      </span>
-
+      <strong>ENTERPRISE SUPPORT</strong>
+      <span>Microsoft 365 · Intune · Autopilot · VIP Support · ServiceNow</span>
     </div>
 
   </div>
@@ -2214,224 +1613,74 @@ footer .fine{
      EXPERIENCE
 ========================================================== -->
 
-<section
-  class="reveal"
-  id="experience">
+<section class="reveal" id="experience">
 
-  <h2>
-    Professional experience
-  </h2>
-
+  <h2 class="decrypt">Professional experience</h2>
 
   <ul class="experience-list">
 
-
-    <!-- CLARANET -->
-
     <li class="experience-item">
-
       <div class="experience-header">
-
         <div>
-
-          <h3>
-            Service Assurance Engineer
-          </h3>
-
-          <div class="experience-company">
-            Claranet Spain
-          </div>
-
+          <h3>Service Assurance Engineer</h3>
+          <div class="experience-company">Claranet Spain</div>
         </div>
-
-
-        <div class="experience-date">
-          Jul 2026 - Present
-        </div>
-
+        <div class="experience-date">Jul 2026 - Present</div>
       </div>
 
-
-      <div class="experience-location">
-        Barcelona · 24/7 Critical Operations
-      </div>
-
+      <div class="experience-location">Barcelona · 24/7 Critical Operations</div>
 
       <ul>
-
-        <li>
-          Continuous monitoring of critical services and infrastructure
-          to detect incidents early and support proactive mitigation.
-        </li>
-
-        <li>
-          L1/L2 incident management with strong focus on SLA compliance,
-          escalation quality and operational continuity, under
-          regulatory frameworks including FCA, PRA and DORA.
-        </li>
-
-        <li>
-          Coordination of major incidents involving multidisciplinary
-          technical teams and external stakeholders.
-        </li>
-
-        <li>
-          Execution of operational changes, preventive maintenance
-          and infrastructure stability activities.
-        </li>
-
-        <li>
-          Operational leadership across rotating 24/7 shifts,
-          including knowledge transfer and service continuity.
-        </li>
-
-        <li>
-          Root Cause Analysis and post-incident reporting to identify
-          recurring failure patterns and improvement opportunities.
-        </li>
-
-        <li>
-          Development and improvement of monitoring strategies to
-          increase service visibility and reduce response times.
-        </li>
-
-        <li>
-          Technical documentation aligned with ITIL and regulatory
-          requirements.
-        </li>
-
+        <li>Continuous monitoring of critical services and infrastructure to detect incidents early and support proactive mitigation.</li>
+        <li>L1/L2 incident management with strong focus on SLA compliance, escalation quality and operational continuity, under regulatory frameworks including FCA, PRA and DORA.</li>
+        <li>Coordination of major incidents involving multidisciplinary technical teams and external stakeholders.</li>
+        <li>Execution of operational changes, preventive maintenance and infrastructure stability activities.</li>
+        <li>Operational leadership across rotating 24/7 shifts, including knowledge transfer and service continuity.</li>
+        <li>Root Cause Analysis and post-incident reporting to identify recurring failure patterns and improvement opportunities.</li>
+        <li>Development and improvement of monitoring strategies to increase service visibility and reduce response times.</li>
+        <li>Technical documentation aligned with ITIL and regulatory requirements.</li>
       </ul>
-
     </li>
-
-
-
-    <!-- SANOFI -->
 
     <li class="experience-item">
-
       <div class="experience-header">
-
         <div>
-
-          <h3>
-            Information Technology Specialist, Tier 2
-          </h3>
-
-          <div class="experience-company">
-            Sanofi · via Hemmersbach
-          </div>
-
+          <h3>Information Technology Specialist, Tier 2</h3>
+          <div class="experience-company">Sanofi · via Hemmersbach</div>
         </div>
-
-
-        <div class="experience-date">
-          Nov 2023 - Jul 2026
-        </div>
-
+        <div class="experience-date">Nov 2023 - Jul 2026</div>
       </div>
 
-
-      <div class="experience-location">
-        Global Enterprise IT Environment
-      </div>
-
+      <div class="experience-location">Global Enterprise IT Environment</div>
 
       <ul>
-
-        <li>
-          Identity and access management on Microsoft Entra ID and
-          Active Directory: users, groups, permissions and access
-          control for 500+ users in a global enterprise environment.
-        </li>
-
-        <li>
-          Implementation of Conditional Access, MFA and compliance
-          policy via Microsoft Intune.
-        </li>
-
-        <li>
-          Secure endpoint deployment using Autopilot and Secure
-          Access Workstations, including device lifecycle management.
-        </li>
-
-        <li>
-          Advanced Microsoft 365 support across Teams, Outlook,
-          SharePoint and OneDrive.
-        </li>
-
-        <li>
-          ServiceNow incident and service request management
-          against strict SLA and KPI requirements.
-        </li>
-
-        <li>
-          VIP support and critical incident resolution.
-        </li>
-
-        <li>
-          Hardware, desktop, laptop and enterprise network
-          troubleshooting including TCP/IP, VPN and connectivity.
-        </li>
-
-        <li>
-          Collaboration with international teams on global IT projects.
-        </li>
-
+        <li>Identity and access management on Microsoft Entra ID and Active Directory: users, groups, permissions and access control for 500+ users in a global enterprise environment.</li>
+        <li>Implementation of Conditional Access, MFA and compliance policy via Microsoft Intune.</li>
+        <li>Secure endpoint deployment using Autopilot and Secure Access Workstations, including device lifecycle management.</li>
+        <li>Advanced Microsoft 365 support across Teams, Outlook, SharePoint and OneDrive.</li>
+        <li>ServiceNow incident and service request management against strict SLA and KPI requirements.</li>
+        <li>VIP support and critical incident resolution.</li>
+        <li>Hardware, desktop, laptop and enterprise network troubleshooting including TCP/IP, VPN and connectivity.</li>
+        <li>Collaboration with international teams on global IT projects.</li>
       </ul>
-
     </li>
-
-
-
-    <!-- EARLIER EXPERIENCE -->
 
     <li class="experience-item">
-
       <div class="experience-header">
-
         <div>
-
-          <h3>
-            Earlier: Support &amp; Identity Roles
-          </h3>
-
-          <div class="experience-company">
-            iad España · Validated ID
-          </div>
-
+          <h3>Earlier: Support &amp; Identity Roles</h3>
+          <div class="experience-company">iad España · Validated ID</div>
         </div>
-
-
-        <div class="experience-date">
-          2020 - 2023
-        </div>
-
+        <div class="experience-date">2020 - 2023</div>
       </div>
 
-
-      <div class="experience-location">
-        Barcelona · SaaS, Cloud &amp; Identity
-      </div>
-
+      <div class="experience-location">Barcelona · SaaS, Cloud &amp; Identity</div>
 
       <ul>
-
-        <li>
-          Microsoft 365 and Active Directory administration, user
-          onboarding and authentication management (iad España).
-        </li>
-
-        <li>
-          Technical support for a SaaS identity platform, including
-          role, permission and access management across PRE/PRO
-          environments (Validated ID).
-        </li>
-
+        <li>Microsoft 365 and Active Directory administration, user onboarding and authentication management (iad España).</li>
+        <li>Technical support for a SaaS identity platform, including role, permission and access management across PRE/PRO environments (Validated ID).</li>
       </ul>
-
     </li>
-
 
   </ul>
 
@@ -2443,52 +1692,28 @@ footer .fine{
      PROJECTS
 ========================================================== -->
 
-<section
-  class="reveal"
-  id="projects">
+<section class="reveal" id="projects">
 
   <div class="projects-intro">
-
     <div>
-
-      <h2>
-        Projects
-      </h2>
-
+      <h2 class="decrypt">Projects</h2>
       <p>
         Hands-on lab work that backs up the certifications and the
         Identity &amp; Access Security direction, documented as I
         build it rather than claimed in advance.
       </p>
-
     </div>
-
-    <span class="projects-count">
-      2 in progress · 1 planned
-    </span>
-
+    <span class="projects-count">2 in progress · 1 planned</span>
   </div>
 
 
   <ul class="project-list">
 
-
-    <!-- PROJECT 1 -->
-
     <li class="project-card">
-
       <div class="project-header">
-
-        <h3>
-          Entra ID Zero Trust Lab
-        </h3>
-
-        <span class="project-status building">
-          IN PROGRESS
-        </span>
-
+        <h3>Entra ID Zero Trust Lab</h3>
+        <span class="project-status building">IN PROGRESS</span>
       </div>
-
       <p>
         Free-tier Entra ID tenant configured with Conditional Access
         policies, MFA enforcement, Privileged Identity Management (PIM)
@@ -2496,40 +1721,24 @@ footer .fine{
         the reasoning behind it, and how it maps to real enterprise
         risk, not just a checklist of settings enabled.
       </p>
-
       <div class="project-meta">
-        <span class="project-tag">ENTRA ID</span>
-        <span class="project-tag">CONDITIONAL ACCESS</span>
-        <span class="project-tag">MFA</span>
-        <span class="project-tag">PIM</span>
-        <span class="project-tag">ZERO TRUST</span>
+        <span class="project-tag tag-identity">ENTRA ID</span>
+        <span class="project-tag tag-identity">CONDITIONAL ACCESS</span>
+        <span class="project-tag tag-identity">MFA</span>
+        <span class="project-tag tag-identity">PIM</span>
+        <span class="project-tag tag-identity">ZERO TRUST</span>
       </div>
-
       <div class="project-links">
         <span class="project-link-pending">Write-up in progress</span>
-        <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
-
     </li>
 
-
-
-    <!-- PROJECT 2 -->
-
     <li class="project-card">
-
       <div class="project-header">
-
-        <h3>
-          Major Incident Playbook: Identity &amp; Access Cases
-        </h3>
-
-        <span class="project-status building">
-          IN PROGRESS
-        </span>
-
+        <h3>Major Incident Playbook: Identity &amp; Access Cases</h3>
+        <span class="project-status building">IN PROGRESS</span>
       </div>
-
       <p>
         A sanitized, generalized incident response playbook built from
         patterns seen in real major incidents involving access and
@@ -2537,71 +1746,43 @@ footer .fine{
         and post-incident review structure, written so it is reusable
         without exposing any client-confidential detail.
       </p>
-
       <div class="project-meta">
-        <span class="project-tag">INCIDENT RESPONSE</span>
-        <span class="project-tag">ITIL</span>
-        <span class="project-tag">ACCESS SECURITY</span>
-        <span class="project-tag">RCA</span>
+        <span class="project-tag tag-ops">INCIDENT RESPONSE</span>
+        <span class="project-tag tag-ops">ITIL</span>
+        <span class="project-tag tag-identity">ACCESS SECURITY</span>
+        <span class="project-tag tag-ops">RCA</span>
       </div>
-
       <div class="project-links">
         <span class="project-link-pending">Write-up in progress</span>
       </div>
-
     </li>
 
-
-
-    <!-- PROJECT 3 - PLANNED -->
-
     <li class="project-card">
-
       <div class="project-header">
-
-        <h3>
-          AZ-500 Capstone: Securing a Small Azure Environment
-        </h3>
-
-        <span class="project-status planned">
-          PLANNED
-        </span>
-
+        <h3>AZ-500 Capstone: Securing a Small Azure Environment</h3>
+        <span class="project-status planned">PLANNED</span>
       </div>
-
       <p>
         End-to-end build of a small Azure environment covering identity,
         network security, Key Vault, logging and Defender, produced
         alongside AZ-500 study as the practical counterpart to the
         certification.
       </p>
-
       <div class="project-meta">
-        <span class="project-tag">AZURE</span>
-        <span class="project-tag">AZ-500</span>
-        <span class="project-tag">KEY VAULT</span>
-        <span class="project-tag">DEFENDER</span>
+        <span class="project-tag tag-cloud">AZURE</span>
+        <span class="project-tag tag-cloud">AZ-500</span>
+        <span class="project-tag tag-cloud">KEY VAULT</span>
+        <span class="project-tag tag-cloud">DEFENDER</span>
       </div>
-
     </li>
 
-
-
-    <!-- EMPTY SLOT -->
-
     <li class="project-card empty">
-
-      <span class="project-status planned">
-        NEXT
-      </span>
-
+      <span class="project-status planned">NEXT</span>
       <p>
         This space is reserved for the next project. New write-ups
         get added here as each certification and lab is completed.
       </p>
-
     </li>
-
 
   </ul>
 
@@ -2613,26 +1794,15 @@ footer .fine{
      STACK
 ========================================================== -->
 
-<section
-  class="stack reveal"
-  id="stack">
+<section class="stack reveal" id="stack">
 
-  <h2>
-    Technical stack
-  </h2>
-
+  <h2 class="decrypt">Technical stack</h2>
 
   <div class="stack-grid">
 
-
-    <div class="stack-col">
-
-      <h3>
-        # identity-security
-      </h3>
-
+    <div class="stack-col identity">
+      <h3># identity-security</h3>
       <ul>
-
         <li>Entra ID</li>
         <li>Active Directory</li>
         <li>IAM</li>
@@ -2641,21 +1811,12 @@ footer .fine{
         <li>Secure Access Workstations</li>
         <li>Endpoint Security</li>
         <li>Compliance (DORA / FCA / PRA)</li>
-
       </ul>
-
     </div>
 
-
-
-    <div class="stack-col">
-
-      <h3>
-        # cloud-and-endpoint
-      </h3>
-
+    <div class="stack-col cloud">
+      <h3># cloud-and-endpoint</h3>
       <ul>
-
         <li>Microsoft Azure</li>
         <li>Microsoft Intune</li>
         <li>Microsoft Autopilot</li>
@@ -2663,21 +1824,12 @@ footer .fine{
         <li>Cloud Operations</li>
         <li>Hybrid Environments</li>
         <li>Infrastructure Monitoring</li>
-
       </ul>
-
     </div>
 
-
-
-    <div class="stack-col">
-
-      <h3>
-        # operations
-      </h3>
-
+    <div class="stack-col ops">
+      <h3># operations</h3>
       <ul>
-
         <li>ITIL</li>
         <li>Critical Incident Management</li>
         <li>Major Incident Coordination</li>
@@ -2685,29 +1837,18 @@ footer .fine{
         <li>SLA / KPI Management</li>
         <li>24/7 Operations</li>
         <li>Continuous Improvement</li>
-
       </ul>
-
     </div>
 
-
-
-    <div class="stack-col">
-
-      <h3>
-        # learning-now
-      </h3>
-
+    <div class="stack-col study">
+      <h3># learning-now</h3>
       <ul>
-
         <li>SC-900 (in progress)</li>
         <li>AZ-500 (planned)</li>
         <li>SC-300 (planned)</li>
         <li>Python for automation</li>
         <li>REST APIs / JSON</li>
-
       </ul>
-
     </div>
 
   </div>
@@ -2720,14 +1861,9 @@ footer .fine{
      KNOWLEDGE / INTERNAL ARTICLES
 ========================================================== -->
 
-<section
-  class="reveal"
-  id="articles">
+<section class="reveal" id="articles">
 
-  <h2>
-    Knowledge base
-  </h2>
-
+  <h2 class="decrypt">Knowledge base</h2>
 
   <p>
     Practical notes based on enterprise identity, security, incident
@@ -2735,320 +1871,153 @@ footer .fine{
     hands-on experience rather than theory.
   </p>
 
-
   <ul class="article-list" style="margin-top:1.5rem;">
 
-
     <li>
-
-      <a
-        class="article"
-        href="#security">
-
-        <small>
-          SECURITY
-        </small>
-
-        <strong>
-          Identity &amp; Access Security
-        </strong>
-
-        <span>
-          IAM, Conditional Access, Zero Trust and enterprise identity as a security boundary.
-        </span>
-
+      <a class="article" href="#security">
+        <small>SECURITY</small>
+        <strong>Identity &amp; Access Security</strong>
+        <span>IAM, Conditional Access, Zero Trust and enterprise identity as a security boundary.</span>
       </a>
-
     </li>
 
-
-
     <li>
-
-      <a
-        class="article"
-        href="#cloud-infrastructure">
-
-        <small>
-          CLOUD
-        </small>
-
-        <strong>
-          Azure &amp; Cloud Operations
-        </strong>
-
-        <span>
-          Azure fundamentals, identity services and operational practices.
-        </span>
-
+      <a class="article" href="#cloud-infrastructure">
+        <small>CLOUD</small>
+        <strong>Azure &amp; Cloud Operations</strong>
+        <span>Azure fundamentals, identity services and operational practices.</span>
       </a>
-
     </li>
 
-
-
     <li>
-
-      <a
-        class="article"
-        href="#incident-management">
-
-        <small>
-          OPERATIONS
-        </small>
-
-        <strong>
-          Incident &amp; Problem Management
-        </strong>
-
-        <span>
-          Major incidents, RCA, SLA management and operational resilience.
-        </span>
-
+      <a class="article" href="#incident-management">
+        <small>OPERATIONS</small>
+        <strong>Incident &amp; Problem Management</strong>
+        <span>Major incidents, RCA, SLA management and operational resilience.</span>
       </a>
-
     </li>
 
-
-
     <li>
-
-      <a
-        class="article"
-        href="#enterprise-support">
-
-        <small>
-          IT SUPPORT
-        </small>
-
-        <strong>
-          Enterprise IT Support
-        </strong>
-
-        <span>
-          Tier 1/Tier 2 support, troubleshooting, Microsoft 365 and endpoint management.
-        </span>
-
+      <a class="article" href="#enterprise-support">
+        <small>IT SUPPORT</small>
+        <strong>Enterprise IT Support</strong>
+        <span>Tier 1/Tier 2 support, troubleshooting, Microsoft 365 and endpoint management.</span>
       </a>
-
     </li>
 
-
-
     <li>
-
-      <a
-        class="article"
-        href="#automation">
-
-        <small>
-          AUTOMATION
-        </small>
-
-        <strong>
-          Automation &amp; Productivity
-        </strong>
-
-        <span>
-          Python, workflows and automation for repetitive operational tasks.
-        </span>
-
+      <a class="article" href="#automation">
+        <small>AUTOMATION</small>
+        <strong>Automation &amp; Productivity</strong>
+        <span>Python, workflows and automation for repetitive operational tasks.</span>
       </a>
-
     </li>
 
   </ul>
 
 
-
-  <!-- SECURITY -->
-
-  <article
-    class="article-section"
-    id="security">
-
-    <h3>
-      Identity &amp; Access Security
-    </h3>
-
+  <article class="article-section" id="security">
+    <h3>Identity &amp; Access Security</h3>
     <p>
-
       Security is approached from an operational, identity-first
       perspective: authentication, authorization, Conditional Access,
       endpoint security and access management as the boundary that
       actually gets tested during an incident.
-
     </p>
-
     <p>
-
       Three years administering Entra ID, Active Directory, Intune and
       Secure Access Workstations in a regulated global enterprise
       provide the practical foundation this direction is built on.
-
     </p>
-
     <div class="article-meta">
-
-      <span class="article-tag">IAM</span>
-      <span class="article-tag">ENTRA ID</span>
-      <span class="article-tag">CONDITIONAL ACCESS</span>
-      <span class="article-tag">ZERO TRUST</span>
-
+      <span class="article-tag tag-identity">IAM</span>
+      <span class="article-tag tag-identity">ENTRA ID</span>
+      <span class="article-tag tag-identity">CONDITIONAL ACCESS</span>
+      <span class="article-tag tag-identity">ZERO TRUST</span>
     </div>
-
   </article>
 
 
-
-  <!-- CLOUD -->
-
-  <article
-    class="article-section"
-    id="cloud-infrastructure">
-
-    <h3>
-      Azure &amp; Cloud Operations
-    </h3>
-
+  <article class="article-section" id="cloud-infrastructure">
+    <h3>Azure &amp; Cloud Operations</h3>
     <p>
-
       Azure is the primary cloud platform in current use, through
       Entra ID, Intune and enterprise device management. Current
       study is extending that operational base toward AZ-500-level
       security engineering: network security, Key Vault, logging and
       Defender.
-
     </p>
-
     <div class="article-meta">
-
-      <span class="article-tag">AZURE</span>
-      <span class="article-tag">ENTRA ID</span>
-      <span class="article-tag">AZ-500</span>
-      <span class="article-tag">MONITORING</span>
-
+      <span class="article-tag tag-cloud">AZURE</span>
+      <span class="article-tag tag-identity">ENTRA ID</span>
+      <span class="article-tag tag-cloud">AZ-500</span>
+      <span class="article-tag tag-ops">MONITORING</span>
     </div>
-
   </article>
 
 
-
-  <!-- ENTERPRISE SUPPORT -->
-
-  <article
-    class="article-section"
-    id="enterprise-support">
-
-    <h3>
-      Enterprise IT Support
-    </h3>
-
+  <article class="article-section" id="enterprise-support">
+    <h3>Enterprise IT Support</h3>
     <p>
-
       Enterprise support is more than resolving tickets. It involves
       understanding the relationship between users, endpoints,
       identity, applications and business requirements.
-
     </p>
-
     <p>
-
       Experience includes Tier 1/Tier 2 support, VIP support,
       Microsoft 365, endpoint deployment, Intune, Autopilot,
       Active Directory, Entra ID, ServiceNow and enterprise
       troubleshooting.
-
     </p>
-
     <div class="article-meta">
-
-      <span class="article-tag">TIER 2</span>
-      <span class="article-tag">MICROSOFT 365</span>
-      <span class="article-tag">INTUNE</span>
-      <span class="article-tag">AUTOPILOT</span>
-      <span class="article-tag">SERVICENOW</span>
-
+      <span class="article-tag tag-ops">TIER 2</span>
+      <span class="article-tag tag-cloud">MICROSOFT 365</span>
+      <span class="article-tag tag-cloud">INTUNE</span>
+      <span class="article-tag tag-cloud">AUTOPILOT</span>
+      <span class="article-tag tag-ops">SERVICENOW</span>
     </div>
-
   </article>
 
 
-
-  <!-- INCIDENT -->
-
-  <article
-    class="article-section"
-    id="incident-management">
-
-    <h3>
-      Incident &amp; Problem Management
-    </h3>
-
+  <article class="article-section" id="incident-management">
+    <h3>Incident &amp; Problem Management</h3>
     <p>
-
       Critical operations require structured incident response,
       clear communication, effective escalation and disciplined
       post-incident analysis.
-
     </p>
-
     <p>
-
       Current service assurance work includes L1/L2 incidents,
       major incident coordination, SLA management, monitoring,
       post-incident reporting, root cause analysis and continuous
       improvement within 24/7 environments.
-
     </p>
-
     <div class="article-meta">
-
-      <span class="article-tag">ITIL</span>
-      <span class="article-tag">MAJOR INCIDENTS</span>
-      <span class="article-tag">RCA</span>
-      <span class="article-tag">SLA</span>
-
+      <span class="article-tag tag-ops">ITIL</span>
+      <span class="article-tag tag-ops">MAJOR INCIDENTS</span>
+      <span class="article-tag tag-ops">RCA</span>
+      <span class="article-tag tag-ops">SLA</span>
     </div>
-
   </article>
 
 
-
-  <!-- AUTOMATION -->
-
-  <article
-    class="article-section"
-    id="automation">
-
-    <h3>
-      Automation &amp; Productivity
-    </h3>
-
+  <article class="article-section" id="automation">
+    <h3>Automation &amp; Productivity</h3>
     <p>
-
       Automation is used as a practical engineering tool to reduce
       repetitive work, improve consistency and create more reliable
       operational workflows.
-
     </p>
-
     <p>
-
       Current areas of study include Python scripting, API
       interaction, JSON processing and operational tooling for
       identity and access administration.
-
     </p>
-
     <div class="article-meta">
-
-      <span class="article-tag">PYTHON</span>
-      <span class="article-tag">REST APIs</span>
-      <span class="article-tag">AUTOMATION</span>
-
+      <span class="article-tag tag-study">PYTHON</span>
+      <span class="article-tag tag-study">REST APIs</span>
+      <span class="article-tag tag-study">AUTOMATION</span>
     </div>
-
   </article>
 
 </section>
@@ -3059,142 +2028,47 @@ footer .fine{
      PROFESSIONAL APPROACH
 ========================================================== -->
 
-<section
-  class="reveal"
-  id="approach">
+<section class="reveal" id="approach">
 
-  <h2>
-    How I approach technology
-  </h2>
-
+  <h2 class="decrypt">How I approach technology</h2>
 
   <ol class="timeline">
 
-
     <li>
-
-      <span class="step">
-        01
-      </span>
-
-      <h3>
-        Understand the service
-      </h3>
-
-      <p>
-
-        Before troubleshooting infrastructure, understand the service,
-        its dependencies, its users and its business impact.
-
-      </p>
-
+      <span class="step">01</span>
+      <h3>Understand the service</h3>
+      <p>Before troubleshooting infrastructure, understand the service, its dependencies, its users and its business impact.</p>
     </li>
 
-
-
     <li>
-
-      <span class="step">
-        02
-      </span>
-
-      <h3>
-        Protect identity and access
-      </h3>
-
-      <p>
-
-        Identity, authentication and authorization are fundamental
-        security boundaries across modern enterprise environments.
-
-      </p>
-
+      <span class="step">02</span>
+      <h3>Protect identity and access</h3>
+      <p>Identity, authentication and authorization are fundamental security boundaries across modern enterprise environments.</p>
     </li>
 
-
-
     <li>
-
-      <span class="step">
-        03
-      </span>
-
-      <h3>
-        Observe the environment
-      </h3>
-
-      <p>
-
-        Monitoring and useful operational visibility allow teams to
-        detect degradation before it becomes a larger business impact.
-
-      </p>
-
+      <span class="step">03</span>
+      <h3>Observe the environment</h3>
+      <p>Monitoring and useful operational visibility allow teams to detect degradation before it becomes a larger business impact.</p>
     </li>
 
-
-
     <li>
-
-      <span class="step">
-        04
-      </span>
-
-      <h3>
-        Respond systematically
-      </h3>
-
-      <p>
-
-        Effective incident management requires prioritization,
-        communication, escalation and technical discipline.
-
-      </p>
-
+      <span class="step">04</span>
+      <h3>Respond systematically</h3>
+      <p>Effective incident management requires prioritization, communication, escalation and technical discipline.</p>
     </li>
 
-
-
     <li>
-
-      <span class="step">
-        05
-      </span>
-
-      <h3>
-        Learn from failure
-      </h3>
-
-      <p>
-
-        Root Cause Analysis and post-incident reviews should lead
-        to measurable improvements rather than simply closing tickets.
-
-      </p>
-
+      <span class="step">05</span>
+      <h3>Learn from failure</h3>
+      <p>Root Cause Analysis and post-incident reviews should lead to measurable improvements rather than simply closing tickets.</p>
     </li>
 
-
-
     <li>
-
-      <span class="step">
-        06
-      </span>
-
-      <h3>
-        Automate what can be repeated
-      </h3>
-
-      <p>
-
-        Repetitive operational work is an opportunity for automation,
-        consistency and better engineering practices.
-
-      </p>
-
+      <span class="step">06</span>
+      <h3>Automate what can be repeated</h3>
+      <p>Repetitive operational work is an opportunity for automation, consistency and better engineering practices.</p>
     </li>
-
 
   </ol>
 
@@ -3206,149 +2080,63 @@ footer .fine{
      EDUCATION
 ========================================================== -->
 
-<section
-  class="reveal"
-  id="education">
+<section class="reveal" id="education">
 
-  <h2>
-    Education &amp; certifications
-  </h2>
-
+  <h2 class="decrypt">Education &amp; certifications</h2>
 
   <ul class="simple-list">
 
-
     <li>
-
       <div>
-
-        <strong>
-          Universidad Isabel I
-        </strong>
-
-        <span>
-          Master's Degree Programs: Full Stack Development /
-          Computer Programming
-        </span>
-
+        <strong>Universidad Isabel I</strong>
+        <span>Master's Degree Programs: Full Stack Development / Computer Programming</span>
       </div>
-
     </li>
 
-
     <li>
-
       <div>
-
-        <strong>
-          IPI-Fernando Aguado y Rico
-        </strong>
-
-        <span>
-          Computer Science
-        </span>
-
+        <strong>IPI-Fernando Aguado y Rico</strong>
+        <span>Computer Science</span>
       </div>
-
     </li>
 
-
     <li>
-
       <div>
-
-        <strong>
-          Fundamentals of Cybersecurity
-        </strong>
-
-        <span>
-          Cybersecurity fundamentals
-        </span>
-
+        <strong>Fundamentals of Cybersecurity</strong>
+        <span>Cybersecurity fundamentals</span>
       </div>
-
     </li>
 
-
     <li>
-
       <div>
-
-        <strong>
-          ServiceNow &amp; IT Service Management Training
-        </strong>
-
-        <span>
-          Next Experience UI · Service Desk fundamentals
-        </span>
-
+        <strong>ServiceNow &amp; IT Service Management Training</strong>
+        <span>Next Experience UI · Service Desk fundamentals</span>
       </div>
-
     </li>
 
-
     <li>
-
       <div>
-
-        <strong>
-          SC-900: Security, Compliance &amp; Identity Fundamentals
-        </strong>
-
-        <span>
-          Microsoft
-        </span>
-
+        <strong>SC-900: Security, Compliance &amp; Identity Fundamentals</strong>
+        <span>Microsoft</span>
       </div>
-
-      <span class="cert-status project-status building">
-        IN PROGRESS
-      </span>
-
+      <span class="cert-status project-status building">IN PROGRESS</span>
     </li>
 
-
     <li>
-
       <div>
-
-        <strong>
-          AZ-500: Azure Security Engineer Associate
-        </strong>
-
-        <span>
-          Microsoft
-        </span>
-
+        <strong>AZ-500: Azure Security Engineer Associate</strong>
+        <span>Microsoft</span>
       </div>
-
-      <span class="cert-status project-status planned">
-        PLANNED
-      </span>
-
+      <span class="cert-status project-status planned">PLANNED</span>
     </li>
 
-
     <li>
-
       <div>
-
-        <strong>
-          SC-300: Identity and Access Administrator
-        </strong>
-
-        <span>
-          Microsoft
-        </span>
-
+        <strong>SC-300: Identity and Access Administrator</strong>
+        <span>Microsoft</span>
       </div>
-
-      <span class="cert-status project-status planned">
-        PLANNED
-      </span>
-
+      <span class="cert-status project-status planned">PLANNED</span>
     </li>
-
 
   </ul>
 
@@ -3360,13 +2148,9 @@ footer .fine{
      CERTIFICATION JOURNEY
 ========================================================== -->
 
-<section
-  class="reveal"
-  id="journey">
+<section class="reveal" id="journey">
 
-  <h2>
-    The certification journey
-  </h2>
+  <h2 class="decrypt">The certification journey</h2>
 
   <p class="journey-intro">
     A short account of the study path behind each certification:
@@ -3375,34 +2159,23 @@ footer .fine{
     themselves.
   </p>
 
-
   <ul class="chapter-list">
 
-
-    <!-- CHAPTER 1 -->
-
     <li class="chapter-card">
-
       <div class="chapter-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
           <path d="M12 6v13"/>
         </svg>
       </div>
-
       <div>
-
         <div class="chapter-header">
-
           <div>
             <span class="chapter-number">Chapter 1</span>
             <h3>Where the curiosity started</h3>
           </div>
-
           <span class="project-status shipped">DONE</span>
-
         </div>
-
         <p>
           Before working with Entra ID or Conditional Access in a
           production environment, I completed a foundations course in
@@ -3410,74 +2183,48 @@ footer .fine{
           concepts: threats, controls and risk. It set the direction
           for everything that followed.
         </p>
-
       </div>
-
     </li>
 
-
-
-    <!-- CHAPTER 2 -->
-
     <li class="chapter-card">
-
       <div class="chapter-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
           <path d="M12 6v13"/>
         </svg>
       </div>
-
       <div>
-
         <div class="chapter-header">
-
           <div>
             <span class="chapter-number">Chapter 2</span>
             <h3>Learning the language operations speaks</h3>
           </div>
-
           <span class="project-status shipped">DONE</span>
-
         </div>
-
         <p>
           Working at scale in enterprise IT requires a shared
           operational language: tickets, SLAs, escalation paths.
           ServiceNow and ITSM training provided that framework, and
           it now underlies the way I manage every incident.
         </p>
-
       </div>
-
     </li>
 
-
-
-    <!-- CHAPTER 3 - CURRENT -->
-
     <li class="chapter-card">
-
       <div class="chapter-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
           <path d="M12 6v13"/>
         </svg>
       </div>
-
       <div>
-
         <div class="chapter-header">
-
           <div>
             <span class="chapter-number">Chapter 3</span>
             <h3>The one I'm writing right now</h3>
           </div>
-
           <span class="project-status building">IN PROGRESS</span>
-
         </div>
-
         <p>
           Currently in progress, studied outside working hours: Entra
           ID, Zero Trust principles and Microsoft Purview, covered
@@ -3486,37 +2233,24 @@ footer .fine{
           credential on this page and, at this stage, the most
           foundational one.
         </p>
-
       </div>
-
     </li>
 
-
-
-    <!-- CHAPTER 4 -->
-
     <li class="chapter-card">
-
       <div class="chapter-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
           <path d="M12 6v13"/>
         </svg>
       </div>
-
       <div>
-
         <div class="chapter-header">
-
           <div>
             <span class="chapter-number">Chapter 4</span>
             <h3>Where the instinct becomes engineering</h3>
           </div>
-
           <span class="project-status planned">PLANNED</span>
-
         </div>
-
         <p>
           Once SC-900 closes, AZ-500 opens the next door: turning
           three years of hands-on Azure identity work into a formal,
@@ -3524,74 +2258,45 @@ footer .fine{
           security, Key Vault, Defender and logging, built and broken
           in a lab of my own.
         </p>
-
       </div>
-
     </li>
 
-
-
-    <!-- CHAPTER 5 -->
-
     <li class="chapter-card">
-
       <div class="chapter-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 6c-1.5-1-4-1.5-6-1v13c2 0 4.5.5 6 1.5 1.5-1 4-1.5 6-1.5V5c-2-.5-4.5 0-6 1z"/>
           <path d="M12 6v13"/>
         </svg>
       </div>
-
       <div>
-
         <div class="chapter-header">
-
           <div>
             <span class="chapter-number">Chapter 5</span>
             <h3>Identity, from the administrator's side</h3>
           </div>
-
           <span class="project-status planned">PLANNED</span>
-
         </div>
-
         <p>
           The closing chapter of this arc, aimed at formally proving what
           the last three years already taught me on the job: how to
           design and run identity and access at enterprise scale.
         </p>
-
       </div>
-
     </li>
 
-
-
-    <!-- NEXT CHAPTER - EMPTY -->
-
     <li class="chapter-card empty">
-
       <div class="chapter-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14M5 12h14"/>
         </svg>
       </div>
-
       <div>
-
         <div class="chapter-header">
           <h3>Next chapter</h3>
         </div>
-
-        <p>
-          Reserved for whatever comes after SC-300. This page grows with
-          each new certification and lab.
-        </p>
-
+        <p>Reserved for whatever comes after SC-300. This page grows with each new certification and lab.</p>
       </div>
-
     </li>
-
 
   </ul>
 
@@ -3605,38 +2310,13 @@ footer .fine{
 
 <section class="reveal">
 
-  <h2>
-    Languages
-  </h2>
-
+  <h2 class="decrypt">Languages</h2>
 
   <div class="languages">
-
-
-    <div class="language">
-      Spanish
-      <span>· Native / Bilingual</span>
-    </div>
-
-
-    <div class="language">
-      English
-      <span>· Professional Working</span>
-    </div>
-
-
-    <div class="language">
-      French
-      <span>· Limited Working</span>
-    </div>
-
-
-    <div class="language">
-      German
-      <span>· Limited Working</span>
-    </div>
-
-
+    <div class="language">Spanish <span>· Native / Bilingual</span></div>
+    <div class="language">English <span>· Professional Working</span></div>
+    <div class="language">French <span>· Limited Working</span></div>
+    <div class="language">German <span>· Limited Working</span></div>
   </div>
 
 </section>
@@ -3647,66 +2327,26 @@ footer .fine{
      CONTACT
 ========================================================== -->
 
-<section
-  class="reveal"
-  id="contact">
+<section class="reveal" id="contact">
 
-  <h2>
-    Contact
-  </h2>
-
+  <h2 class="decrypt">Contact</h2>
 
   <div class="contact-grid">
 
-
     <div class="contact-item">
-
-      <small>
-        EMAIL
-      </small>
-
-      <a href="mailto:cubalex1992@gmail.com">
-        cubalex1992@gmail.com
-      </a>
-
+      <small>EMAIL</small>
+      <a href="mailto:cubalex1992@gmail.com" target="_blank" rel="noopener noreferrer">cubalex1992@gmail.com</a>
     </div>
 
-
     <div class="contact-item">
-
-      <small>
-        LINKEDIN
-      </small>
-
-      <a
-        href="https://www.linkedin.com/in/alexmartineztech"
-        target="_blank"
-        rel="noopener">
-
-        linkedin.com/in/alexmartineztech
-
-      </a>
-
+      <small>LINKEDIN</small>
+      <a href="https://www.linkedin.com/in/alexmartineztech" target="_blank" rel="noopener noreferrer">linkedin.com/in/alexmartineztech</a>
     </div>
 
-
     <div class="contact-item">
-
-      <small>
-        GITHUB
-      </small>
-
-      <a
-        href="https://github.com/alexmartineztech"
-        target="_blank"
-        rel="noopener">
-
-        github.com/alexmartineztech
-
-      </a>
-
+      <small>GITHUB</small>
+      <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener noreferrer">github.com/alexmartineztech</a>
     </div>
-
 
   </div>
 
@@ -3724,48 +2364,18 @@ footer .fine{
 <footer>
 
   <p class="cta">
-
     Interested in Identity &amp; Access Security, Azure, Enterprise IT
     or Service Operations?
-
-    <a href="mailto:cubalex1992@gmail.com">
-      Let's connect.
-    </a>
-
+    <a href="mailto:cubalex1992@gmail.com" target="_blank" rel="noopener noreferrer">Let's connect.</a>
   </p>
-
 
   <nav class="links">
-
-    <a
-      href="https://github.com/alexmartineztech"
-      target="_blank"
-      rel="noopener">
-      GitHub
-    </a>
-
-    <a
-      href="https://www.linkedin.com/in/alexmartineztech"
-      target="_blank"
-      rel="noopener">
-      LinkedIn
-    </a>
-
-    <a
-      href="https://www.instagram.com/alexmartinez.tech"
-      target="_blank"
-      rel="noopener">
-      Instagram
-    </a>
-
+    <a href="https://github.com/alexmartineztech" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://www.linkedin.com/in/alexmartineztech" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://www.instagram.com/alexmartinez.tech" target="_blank" rel="noopener noreferrer">Instagram</a>
   </nav>
 
-
-  <p class="fine">
-
-    © 2026 Alexander Pineda Martinez · Barcelona, Spain
-
-  </p>
+  <p class="fine">© 2026 Alexander Pineda Martinez · Barcelona, Spain</p>
 
 </footer>
 
@@ -3780,232 +2390,394 @@ footer .fine{
 
 <script>
 
-
 /* ==========================================================
    CONTENT PROTECTION
-   Basic client-side friction against casual copying/saving.
-   Note: this deters casual copying only. It cannot fully
-   prevent someone determined to view page source.
 ========================================================== */
 
 document.addEventListener('contextmenu', function(event){
-
-  if(event.target.closest('.contact-item')){
-
-    return;
-
-  }
-
+  if(event.target.closest('.contact-item')){ return; }
   event.preventDefault();
-
 });
-
 
 document.addEventListener('keydown', function(event){
-
   const key = event.key.toLowerCase();
-
-  const blockedWithCtrlOrCmd =
-    ['s','p','u'].includes(key) &&
-    (event.ctrlKey || event.metaKey);
-
-  const blockedDevTools =
-    key === 'f12' ||
-    (event.ctrlKey && event.shiftKey && ['i','j','c'].includes(key));
-
-  if(blockedWithCtrlOrCmd || blockedDevTools){
-
-    event.preventDefault();
-
-  }
-
+  const blockedWithCtrlOrCmd = ['s','p','u'].includes(key) && (event.ctrlKey || event.metaKey);
+  const blockedDevTools = key === 'f12' || (event.ctrlKey && event.shiftKey && ['i','j','c'].includes(key));
+  if(blockedWithCtrlOrCmd || blockedDevTools){ event.preventDefault(); }
 });
 
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 
 /* ==========================================================
-   TERMINAL
+   SCROLL PROGRESS + FLOATING SCROLLSPY NAV
 ========================================================== */
 
-function typeLine(
-  element,
-  text,
-  speed,
-  callback
-){
+(function(){
 
-  if(!element){
-    return;
-  }
+  const progress = document.getElementById('scrollProgress');
+  const floatingNav = document.getElementById('floatingNav');
+  const hero = document.querySelector('.hero');
+  const navLinks = document.querySelectorAll('.floating-nav-links a');
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
 
+  let ticking = false;
 
-  let index = 0;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
 
+    requestAnimationFrame(function(){
 
-  function tick(){
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = scrollHeight > 0 ? Math.min(scrollTop / scrollHeight, 1) : 0;
 
-    if(index <= text.length){
+      if(progress){ progress.style.transform = 'scaleX(' + pct + ')'; }
 
-      element.textContent =
-        text.slice(0,index);
-
-      index++;
-
-      setTimeout(
-        tick,
-        speed
-      );
-
-    }else{
-
-      if(callback){
-        callback();
+      if(floatingNav && hero){
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        floatingNav.classList.toggle('visible', heroBottom < 40);
       }
 
-    }
-
+      ticking = false;
+    });
   }
 
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
 
-  tick();
+  if(sections.length && navLinks.length){
 
-}
+    const spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(function(link){
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
 
+    sections.forEach(function(section){ spy.observe(section); });
+  }
 
-
-document.addEventListener(
-  'DOMContentLoaded',
-  function(){
-
-    const name =
-      document.getElementById(
-        'line-name'
-      );
-
-    const role =
-      document.getElementById(
-        'line-role'
-      );
-
-    const focus =
-      document.getElementById(
-        'line-focus'
-      );
+})();
 
 
-    typeLine(
-      name,
-      'Alexander Pineda Martinez',
-      28,
-      function(){
+/* ==========================================================
+   CURSOR-AWARE AMBIENT GLOW
+========================================================== */
 
-        typeLine(
-          role,
-          'Service Assurance Engineer | Identity & Access (IAM)',
-          16,
-          function(){
+(function(){
+  if(prefersReducedMotion || !isFinePointer) return;
 
-            typeLine(
-              focus,
-              'Azure + Entra ID + Zero Trust + Enterprise Security',
-              14
-            );
+  const glow = document.getElementById('cursorGlow');
+  if(!glow) return;
 
-          }
-        );
+  let raf = null;
 
-      }
-    );
-
+  document.addEventListener('mousemove', function(event){
+    if(raf) return;
+    raf = requestAnimationFrame(function(){
+      glow.style.setProperty('--x', event.clientX + 'px');
+      glow.style.setProperty('--y', event.clientY + 'px');
+      glow.classList.add('active');
+      raf = null;
+    });
   });
 
+  document.addEventListener('mouseleave', function(){
+    glow.classList.remove('active');
+  });
+
+})();
+
+
+/* ==========================================================
+   TERMINAL TYPING
+========================================================== */
+
+function typeLine(element,text,speed,callback){
+  if(!element){ return; }
+  let index = 0;
+  function tick(){
+    if(index <= text.length){
+      element.textContent = text.slice(0,index);
+      index++;
+      setTimeout(tick,speed);
+    }else if(callback){
+      callback();
+    }
+  }
+  tick();
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+
+  const name = document.getElementById('line-name');
+  const role = document.getElementById('line-role');
+  const focus = document.getElementById('line-focus');
+
+  typeLine(name,'Alexander Pineda Martinez',28,function(){
+    typeLine(role,'Service Assurance Engineer | Identity & Access (IAM)',16,function(){
+      typeLine(focus,'Azure + Entra ID + Zero Trust + Enterprise Security',14);
+    });
+  });
+
+});
+
+
+/* ==========================================================
+   DECRYPT-REVEAL FOR SECTION HEADINGS
+   A short scramble-to-plaintext resolve, evoking a value being
+   decrypted rather than a generic fade. Runs once per heading,
+   only when the section first enters view.
+========================================================== */
+
+const DECRYPT_CHARS = '01#$%&/¤§∆∑ΔΣ▓▒░ABCDEF';
+
+function decryptReveal(el){
+  if(prefersReducedMotion || el.dataset.decrypted) return;
+  el.dataset.decrypted = 'true';
+
+  const original = el.textContent;
+  const len = original.length;
+  const totalFrames = Math.max(18, Math.min(34, len * 2));
+  let frame = 0;
+
+  el.classList.add('decrypting');
+
+  const timer = setInterval(function(){
+    frame++;
+    const revealCount = Math.floor((frame / totalFrames) * len);
+    let out = '';
+
+    for(let i = 0; i < len; i++){
+      const ch = original[i];
+      if(ch === ' '){ out += ' '; continue; }
+      out += (i < revealCount) ? ch : DECRYPT_CHARS[Math.floor(Math.random() * DECRYPT_CHARS.length)];
+    }
+
+    el.textContent = out;
+
+    if(frame >= totalFrames){
+      el.textContent = original;
+      el.classList.remove('decrypting');
+      clearInterval(timer);
+    }
+  }, 22);
+}
 
 
 /* ==========================================================
    SCROLL REVEAL
 ========================================================== */
 
-const observer =
-  new IntersectionObserver(
-    function(entries){
+const observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
 
-      entries.forEach(
-        function(entry){
+      const heading = entry.target.querySelector('h2.decrypt');
+      if(heading){ decryptReveal(heading); }
 
-          if(entry.isIntersecting){
+      observer.unobserve(entry.target);
+    }
+  });
+},{ threshold:.12 });
 
-            entry.target.classList.add(
-              'visible'
-            );
+document.querySelectorAll('.reveal').forEach(function(element){
+  observer.observe(element);
+});
 
-            observer.unobserve(
-              entry.target
-            );
 
-          }
+/* ==========================================================
+   ZERO TRUST VERIFICATION GRAPH (hero canvas)
+   A small, continuous simulation of identity nodes checking in
+   with a central "verified session" node — grey link, amber
+   while a check is in flight, green once verified, a rare red
+   flicker for a denied attempt that self-heals. It's decorative,
+   but every color used matches the semantic palette used for
+   tags elsewhere on the page, so the metaphor stays literal:
+   the page itself demonstrates continuous verification.
+========================================================== */
 
+(function(){
+
+  const canvas = document.getElementById('heroGraph');
+  if(!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width, height, dpr;
+
+  const NODE_COUNT = 16;
+  const LINK_DIST = 170;
+  const nodes = [];
+  const links = new Map();
+
+  function resize(){
+    const rect = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width;
+    height = rect.height;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  function makeNodes(){
+    nodes.length = 0;
+
+    nodes.push({
+      x:width * 0.72, y:height * 0.28,
+      vx:0, vy:0, r:5, core:true
+    });
+
+    for(let i = 1; i < NODE_COUNT; i++){
+      nodes.push({
+        x:Math.random() * width,
+        y:Math.random() * height,
+        vx:(Math.random() - .5) * .18,
+        vy:(Math.random() - .5) * .18,
+        r:2 + Math.random() * 1.6,
+        core:false
+      });
+    }
+  }
+
+  function linkKey(a,b){ return a < b ? a + '-' + b : b + '-' + a; }
+
+  function colorFor(state, alpha){
+    if(state === 'verified') return `rgba(63,185,80,${alpha})`;
+    if(state === 'checking') return `rgba(210,153,34,${alpha})`;
+    if(state === 'denied') return `rgba(248,81,73,${alpha})`;
+    return `rgba(88,166,255,${alpha * 0.35})`;
+  }
+
+  function maybeTriggerCheck(){
+    if(Math.random() > 0.985){
+      const idx = 1 + Math.floor(Math.random() * (NODE_COUNT - 1));
+      const key = linkKey(0, idx);
+      if(!links.has(key) || links.get(key).state === 'idle'){
+        links.set(key, { state:'checking', t:0, target:idx });
+      }
+    }
+  }
+
+  function advanceLinks(){
+    links.forEach(function(link, key){
+      link.t++;
+      if(link.state === 'checking' && link.t > 26){
+        link.state = Math.random() > 0.12 ? 'verified' : 'denied';
+        link.t = 0;
+      }else if((link.state === 'verified' || link.state === 'denied') && link.t > 40){
+        link.state = 'idle';
+        link.t = 0;
+      }
+    });
+  }
+
+  function step(){
+
+    for(let i = 1; i < nodes.length; i++){
+      const n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      if(n.x < 0 || n.x > width) n.vx *= -1;
+      if(n.y < 0 || n.y > height) n.vy *= -1;
+    }
+
+    maybeTriggerCheck();
+    advanceLinks();
+
+    ctx.clearRect(0,0,width,height);
+
+    for(let i = 0; i < nodes.length; i++){
+      for(let j = i + 1; j < nodes.length; j++){
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const isCore = a.core || b.core;
+        const maxDist = isCore ? LINK_DIST * 1.6 : LINK_DIST;
+
+        if(dist < maxDist){
+          const key = linkKey(i,j);
+          const link = links.get(key);
+          const state = link ? link.state : 'idle';
+          const alpha = isCore ? (1 - dist / maxDist) * 0.9 : (1 - dist / maxDist) * 0.5;
+
+          ctx.strokeStyle = colorFor(state, Math.max(alpha, 0.05));
+          ctx.lineWidth = state === 'idle' ? 0.6 : 1.3;
+          ctx.beginPath();
+          ctx.moveTo(a.x,a.y);
+          ctx.lineTo(b.x,b.y);
+          ctx.stroke();
         }
-      );
-
-    },
-    {
-      threshold:.12
+      }
     }
-  );
 
+    for(let i = 0; i < nodes.length; i++){
+      const n = nodes[i];
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle = n.core ? 'rgba(88,166,255,0.9)' : 'rgba(137,150,165,0.55)';
+      ctx.fill();
 
-document
-  .querySelectorAll('.reveal')
-  .forEach(
-    function(element){
-
-      observer.observe(
-        element
-      );
-
+      if(n.core){
+        ctx.beginPath();
+        ctx.arc(n.x,n.y,n.r + 5,0,Math.PI*2);
+        ctx.strokeStyle = 'rgba(88,166,255,0.35)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
     }
-  );
 
+    if(!prefersReducedMotion){
+      requestAnimationFrame(step);
+    }
+  }
+
+  function init(){
+    resize();
+    makeNodes();
+    links.clear();
+    step();
+    if(prefersReducedMotion){
+      setTimeout(step, 400);
+    }
+  }
+
+  window.addEventListener('resize', function(){
+    resize();
+    makeNodes();
+  });
+
+  if(document.readyState === 'complete' || document.readyState === 'interactive'){
+    init();
+  }else{
+    document.addEventListener('DOMContentLoaded', init);
+  }
+
+})();
 
 
 /* ==========================================================
    INTERNAL ARTICLE NAVIGATION
 ========================================================== */
 
-document
-  .querySelectorAll(
-    'a[href^="#"]'
-  )
-  .forEach(
-    function(link){
-
-      link.addEventListener(
-        'click',
-        function(event){
-
-          const target =
-            document.querySelector(
-              link.getAttribute('href')
-            );
-
-
-          if(target){
-
-            event.preventDefault();
-
-
-            target.scrollIntoView({
-              behavior:'smooth',
-              block:'start'
-            });
-
-          }
-
-        }
-      );
-
+document.querySelectorAll('a[href^="#"]').forEach(function(link){
+  link.addEventListener('click', function(event){
+    const target = document.querySelector(link.getAttribute('href'));
+    if(target){
+      event.preventDefault();
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
     }
-  );
+  });
+});
 
 </script>
 
