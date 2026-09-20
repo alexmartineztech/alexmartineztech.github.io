@@ -111,23 +111,6 @@ body{
   line-height:1.65;
 
   overflow-x:hidden;
-
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
-
-  -webkit-touch-callout:none;
-}
-
-
-.contact-item,
-.contact-item *{
-
-  -webkit-user-select:text;
-  -moz-user-select:text;
-  -ms-user-select:text;
-  user-select:text;
 }
 
 
@@ -2335,7 +2318,7 @@ footer .fine{ color:var(--text-dim); font-size:.75rem; margin-top:2rem; }
 
     <div class="contact-item">
       <small>EMAIL</small>
-      <a href="mailto:cubalex1992@gmail.com" target="_blank" rel="noopener noreferrer">cubalex1992@gmail.com</a>
+      <a href="#" data-user="cubalex1992" data-domain="gmail.com" class="js-email" rel="noopener noreferrer">Loading…</a>
     </div>
 
     <div class="contact-item">
@@ -2366,7 +2349,7 @@ footer .fine{ color:var(--text-dim); font-size:.75rem; margin-top:2rem; }
   <p class="cta">
     Interested in Identity &amp; Access Security, Azure, Enterprise IT
     or Service Operations?
-    <a href="mailto:cubalex1992@gmail.com" target="_blank" rel="noopener noreferrer">Let's connect.</a>
+    <a href="#" data-user="cubalex1992" data-domain="gmail.com" class="js-email" rel="noopener noreferrer">Let's connect.</a>
   </p>
 
   <nav class="links">
@@ -2390,25 +2373,25 @@ footer .fine{ color:var(--text-dim); font-size:.75rem; margin-top:2rem; }
 
 <script>
 
-/* ==========================================================
-   CONTENT PROTECTION
-========================================================== */
-
-document.addEventListener('contextmenu', function(event){
-  if(event.target.closest('.contact-item')){ return; }
-  event.preventDefault();
-});
-
-document.addEventListener('keydown', function(event){
-  const key = event.key.toLowerCase();
-  const blockedWithCtrlOrCmd = ['s','p','u'].includes(key) && (event.ctrlKey || event.metaKey);
-  const blockedDevTools = key === 'f12' || (event.ctrlKey && event.shiftKey && ['i','j','c'].includes(key));
-  if(blockedWithCtrlOrCmd || blockedDevTools){ event.preventDefault(); }
-});
-
-
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+
+/* ==========================================================
+   EMAIL DE-OBFUSCATION
+   Built client-side from split parts so plain-text scrapers
+   scanning the raw HTML never see a harvestable mailto: address,
+   while real visitors get a normal, clickable, selectable link.
+========================================================== */
+
+document.querySelectorAll('.js-email').forEach(function(link){
+  const user = link.getAttribute('data-user');
+  const domain = link.getAttribute('data-domain');
+  if(!user || !domain) return;
+  const address = user + '@' + domain;
+  link.href = 'mailto:' + address;
+  link.textContent = link.textContent === "Let's connect." ? "Let's connect." : address;
+});
 
 
 /* ==========================================================
